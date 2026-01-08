@@ -1,13 +1,37 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useTheme } from '../../contexts/ThemeContext'
 import { useAuth } from '../../contexts/AuthContext'
 import { ROLE_NAMES, ROLES } from '../../config/roles'
 import { resetDatabase, confirmReset, doubleConfirmReset } from '../../utils/resetDatabase'
+import { fixFirstUserRole, checkIfFirstUser } from '../../utils/fixAccount'
 
 const Settings = () => {
   const { theme, setTheme } = useTheme()
   const { user, logout } = useAuth()
   const [isResetting, setIsResetting] = useState(false)
+  const [showRoleFix, setShowRoleFix] = useState(false)
+
+  useEffect(() => {
+    // Check if current user is first user but not super admin
+    if (user && user.role !== ROLES.SUPER_ADMIN && checkIfFirstUser()) {
+      setShowRoleFix(true)
+    }
+  }, [user])
+
+  const handleFixRole = () => {
+    if (!confirm('⚠️ Role Fix\n\nYou appear to be the first registered user but were not assigned Super Admin role.\n\nWould you like to fix this now?\n\nThis will:\n✅ Update your role to Super Admin\n✅ Give you full administrative privileges\n\nClick OK to proceed.')) {
+      return
+    }
+    
+    const result = fixFirstUserRole()
+    
+    if (result.success) {
+      alert('✅ Success!\n\n' + result.message + '\n\nThe page will reload to apply changes.')
+      window.location.reload()
+    } else {
+      alert('❌ Fix failed: ' + result.error)
+    }
+  }
 
   const handleLogout = () => {
     if (confirm('Apakah Anda yakin ingin keluar?')) {
@@ -70,6 +94,32 @@ const Settings = () => {
           </div>
         </div>
       </div>
+
+      {/* Role Fix Banner - Show if first user but not Super Admin */}
+      {showRoleFix && (
+        <div className="card mb-6 border-2 border-yellow-400 bg-yellow-50 dark:bg-yellow-900/20">
+          <div className="flex items-start gap-3">
+            <span className="text-3xl">⚠️</span>
+            <div className="flex-1">
+              <h3 className="font-bold text-yellow-800 dark:text-yellow-300 mb-2">
+                Role Assignment Issue Detected
+              </h3>
+              <p className="text-sm text-yellow-700 dark:text-yellow-400 mb-3">
+                You are the first registered user but were assigned as <strong>{ROLE_NAMES[user?.role]}</strong> instead of <strong>Super Admin</strong>.
+              </p>
+              <p className="text-sm text-yellow-700 dark:text-yellow-400 mb-4">
+                Click the button below to fix your role and gain full administrative privileges.
+              </p>
+              <button
+                onClick={handleFixRole}
+                className="btn bg-yellow-600 hover:bg-yellow-700 text-white font-semibold"
+              >
+                🔧 Fix My Role to Super Admin
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Theme Settings */}
       <div className="card mb-6">
