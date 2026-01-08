@@ -81,77 +81,87 @@ const Layout = () => {
         <Outlet />
       </main>
       
-      {/* Bottom Navigation */}
+      {/* Bottom Navigation - Active-Focused Pattern */}
       <nav className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 safe-area-inset-bottom">
-        <div className="flex justify-around items-center h-16">
+        <div className="flex justify-around items-center h-16 px-2">
           <NavLink
             to="/dashboard"
             className={({ isActive }) =>
-              `flex flex-col items-center justify-center flex-1 h-full transition-colors ${
-                isActive
-                  ? 'text-primary-600 dark:text-primary-400'
-                  : 'text-gray-600 dark:text-gray-400'
-              }`
+              isActive
+                ? 'flex items-center gap-2 px-4 py-2 bg-primary-100 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 rounded-full font-semibold transition-all'
+                : 'flex items-center justify-center w-12 h-12 text-gray-600 dark:text-gray-400 transition-all hover:text-gray-900 dark:hover:text-gray-200'
             }
           >
-            <span className="text-xl">🏠</span>
-            <span className="text-xs mt-1">Beranda</span>
+            {({ isActive }) => (
+              <>
+                <span className="text-xl">🏠</span>
+                {isActive && <span className="text-sm">Beranda</span>}
+              </>
+            )}
           </NavLink>
           
           <NavLink
             to="/member-card"
             className={({ isActive }) =>
-              `flex flex-col items-center justify-center flex-1 h-full transition-colors ${
-                isActive
-                  ? 'text-primary-600 dark:text-primary-400'
-                  : 'text-gray-600 dark:text-gray-400'
-              }`
+              isActive
+                ? 'flex items-center gap-2 px-4 py-2 bg-primary-100 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 rounded-full font-semibold transition-all'
+                : 'flex items-center justify-center w-12 h-12 text-gray-600 dark:text-gray-400 transition-all hover:text-gray-900 dark:hover:text-gray-200'
             }
           >
-            <span className="text-xl">🪪</span>
-            <span className="text-xs mt-1">Kartu</span>
+            {({ isActive }) => (
+              <>
+                <span className="text-xl">🪪</span>
+                {isActive && <span className="text-sm">Kartu</span>}
+              </>
+            )}
           </NavLink>
           
           <NavLink
             to="/activities"
             className={({ isActive }) =>
-              `flex flex-col items-center justify-center flex-1 h-full transition-colors ${
-                isActive
-                  ? 'text-primary-600 dark:text-primary-400'
-                  : 'text-gray-600 dark:text-gray-400'
-              }`
+              isActive
+                ? 'flex items-center gap-2 px-4 py-2 bg-primary-100 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 rounded-full font-semibold transition-all'
+                : 'flex items-center justify-center w-12 h-12 text-gray-600 dark:text-gray-400 transition-all hover:text-gray-900 dark:hover:text-gray-200'
             }
           >
-            <span className="text-xl">📅</span>
-            <span className="text-xs mt-1">Kegiatan</span>
+            {({ isActive }) => (
+              <>
+                <span className="text-xl">📅</span>
+                {isActive && <span className="text-sm">Kegiatan</span>}
+              </>
+            )}
           </NavLink>
           
           <NavLink
             to="/members"
             className={({ isActive }) =>
-              `flex flex-col items-center justify-center flex-1 h-full transition-colors ${
-                isActive
-                  ? 'text-primary-600 dark:text-primary-400'
-                  : 'text-gray-600 dark:text-gray-400'
-              }`
+              isActive
+                ? 'flex items-center gap-2 px-4 py-2 bg-primary-100 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 rounded-full font-semibold transition-all'
+                : 'flex items-center justify-center w-12 h-12 text-gray-600 dark:text-gray-400 transition-all hover:text-gray-900 dark:hover:text-gray-200'
             }
           >
-            <span className="text-xl">👥</span>
-            <span className="text-xs mt-1">Anggota</span>
+            {({ isActive }) => (
+              <>
+                <span className="text-xl">👥</span>
+                {isActive && <span className="text-sm">Anggota</span>}
+              </>
+            )}
           </NavLink>
           
           <NavLink
             to="/profile"
             className={({ isActive }) =>
-              `flex flex-col items-center justify-center flex-1 h-full transition-colors ${
-                isActive
-                  ? 'text-primary-600 dark:text-primary-400'
-                  : 'text-gray-600 dark:text-gray-400'
-              }`
+              isActive
+                ? 'flex items-center gap-2 px-4 py-2 bg-primary-100 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 rounded-full font-semibold transition-all'
+                : 'flex items-center justify-center w-12 h-12 text-gray-600 dark:text-gray-400 transition-all hover:text-gray-900 dark:hover:text-gray-200'
             }
           >
-            <span className="text-xl">⚙️</span>
-            <span className="text-xs mt-1">Profil</span>
+            {({ isActive }) => (
+              <>
+                <span className="text-xl">⚙️</span>
+                {isActive && <span className="text-sm">Profil</span>}
+              </>
+            )}
           </NavLink>
         </div>
       </nav>
