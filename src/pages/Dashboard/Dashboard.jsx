@@ -197,6 +197,11 @@ const Dashboard = () => {
           <Link to="/aspirations" className="ios-btn ios-btn-glass">
             💡 Aspirasi
           </Link>
+          {hasPermission(user?.role, 'MANAGE_USER_ROLES') && (
+            <Link to="/user-management" className="ios-btn ios-btn-glass">
+              👥 Manage Users
+            </Link>
+          )}
         </div>
       </div>
       

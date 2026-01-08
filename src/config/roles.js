@@ -39,13 +39,25 @@ export const CAN_ADD_MEMBERS = [
 // Role display names
 export const ROLE_NAMES = {
   [ROLES.SUPER_ADMIN]: 'Super Admin',
-  [ROLES.KETUA]: 'Ketua',
-  [ROLES.WAKIL_KETUA]: 'Wakil Ketua',
-  [ROLES.SEKRETARIS]: 'Sekretaris',
-  [ROLES.BENDAHARA]: 'Bendahara',
-  [ROLES.SIE]: 'Sie/Divisi',
-  [ROLES.ANGGOTA]: 'Anggota',
-  [ROLES.TAMU]: 'Tamu'
+  [ROLES.KETUA]: 'Chairman (Ketua)',
+  [ROLES.WAKIL_KETUA]: 'Vice Chairman (Wakil Ketua)',
+  [ROLES.SEKRETARIS]: 'Secretary (Sekretaris)',
+  [ROLES.BENDAHARA]: 'Treasurer (Bendahara)',
+  [ROLES.SIE]: 'Head of Division (Ketua Sie/Divisi)',
+  [ROLES.ANGGOTA]: 'Member (Anggota)',
+  [ROLES.TAMU]: 'Guest (Tamu)'
+}
+
+// Role descriptions
+export const ROLE_DESCRIPTIONS = {
+  [ROLES.SUPER_ADMIN]: 'Full administrative privileges - can manage all users and roles',
+  [ROLES.KETUA]: 'Organization chairman - can manage most operations except Super Admin',
+  [ROLES.WAKIL_KETUA]: 'Vice chairman - assists in organizational management',
+  [ROLES.SEKRETARIS]: 'Secretary - manages documentation and communications',
+  [ROLES.BENDAHARA]: 'Treasurer - manages financial operations',
+  [ROLES.SIE]: 'Division head - leads specific organizational divisions',
+  [ROLES.ANGGOTA]: 'Regular member - basic member privileges',
+  [ROLES.TAMU]: 'Guest - limited access'
 }
 
 // Check if user can manage a specific role
@@ -88,6 +100,7 @@ export const PERMISSIONS = {
   VIEW_MEMBERS: [ROLES.SUPER_ADMIN, ROLES.KETUA, ROLES.WAKIL_KETUA, ROLES.SEKRETARIS, ROLES.BENDAHARA, ROLES.SIE, ROLES.ANGGOTA],
   ADD_MEMBERS: CAN_ADD_MEMBERS,
   EDIT_MEMBER_ROLES: [ROLES.SUPER_ADMIN, ROLES.KETUA, ROLES.WAKIL_KETUA],
+  MANAGE_USER_ROLES: [ROLES.SUPER_ADMIN], // Only Super Admin can change user roles
   DELETE_MEMBERS: [ROLES.SUPER_ADMIN],
   
   // Activities

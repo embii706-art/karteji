@@ -42,7 +42,9 @@ const Register = () => {
     
     if (result.success) {
       if (result.isFirstUser) {
-        alert('Selamat! Anda adalah Super Admin pertama.')
+        alert('🎉 Welcome! You are the first user and have been assigned as Super Admin with full administrative privileges.\n\nYou can manage user roles from the User Management section.')
+      } else {
+        alert('✅ Registration successful! You have been registered as a Member.\n\nThe Super Admin can assign you a different role if needed.')
       }
       navigate('/dashboard')
     } else {

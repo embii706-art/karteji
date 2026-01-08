@@ -33,6 +33,7 @@ import WasteBank from './pages/WasteBank/WasteBank'
 import Calendar from './pages/Calendar/Calendar'
 import Marketplace from './pages/Marketplace/Marketplace'
 import Emergency from './pages/Emergency/Emergency'
+import UserManagement from './pages/UserManagement/UserManagement'
 import NotFound from './pages/NotFound'
 
 function App() {
@@ -83,6 +84,7 @@ function App() {
                   <Route path="/finance" element={<Finance />} />
                   <Route path="/aspirations" element={<Aspirations />} />
                   <Route path="/settings" element={<Settings />} />
+                  <Route path="/user-management" element={<UserManagement />} />
                   
                   {/* v1.5 New Features */}
                   <Route path="/weather" element={<Weather />} />
