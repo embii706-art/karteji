@@ -1,1 +1,1 @@
-export { NotFound } from './PlaceholderPages'
+export { NotFound as default } from './PlaceholderPages'

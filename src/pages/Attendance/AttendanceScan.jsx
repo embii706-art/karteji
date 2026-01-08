@@ -1,1 +1,1 @@
-export { AttendanceScan } from '../PlaceholderPages'
+export { AttendanceScan as default } from '../PlaceholderPages'

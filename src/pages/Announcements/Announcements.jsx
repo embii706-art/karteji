@@ -1,1 +1,1 @@
-export { Announcements } from '../PlaceholderPages'
+export { Announcements as default } from '../PlaceholderPages'

@@ -1,1 +1,1 @@
-export { MemberDetail } from '../PlaceholderPages'
+export { MemberDetail as default } from '../PlaceholderPages'

@@ -1,1 +1,1 @@
-export { Attendance } from '../PlaceholderPages'
+export { Attendance as default } from '../PlaceholderPages'

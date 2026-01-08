@@ -1,1 +1,1 @@
-export { ActivityDetail } from '../PlaceholderPages'
+export { ActivityDetail as default } from '../PlaceholderPages'

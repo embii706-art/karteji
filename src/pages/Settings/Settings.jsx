@@ -1,1 +1,1 @@
-export { Settings } from '../PlaceholderPages'
+export { Settings as default } from '../PlaceholderPages'

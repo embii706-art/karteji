@@ -1,1 +1,1 @@
-export { Finance } from '../PlaceholderPages'
+export { Finance as default } from '../PlaceholderPages'

@@ -1,1 +1,1 @@
-export { Aspirations } from '../PlaceholderPages'
+export { Aspirations as default } from '../PlaceholderPages'
