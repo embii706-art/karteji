@@ -1,0 +1,612 @@
+/* ===================================
+   iOS 18/19 PREMIUM DESIGN SYSTEM
+   Cinematic, Fluid, Native-like
+   =================================== */
+
+/* ========== SF PRO TYPOGRAPHY ========== */
+:root {
+  /* iOS Colors */
+  --ios-blue: #007AFF;
+  --ios-green: #34C759;
+  --ios-indigo: #5856D6;
+  --ios-orange: #FF9500;
+  --ios-pink: #FF2D55;
+  --ios-purple: #AF52DE;
+  --ios-red: #FF3B30;
+  --ios-teal: #5AC8FA;
+  --ios-yellow: #FFCC00;
+  
+  /* System Grays */
+  --ios-gray: #8E8E93;
+  --ios-gray-2: #AEAEB2;
+  --ios-gray-3: #C7C7CC;
+  --ios-gray-4: #D1D1D6;
+  --ios-gray-5: #E5E5EA;
+  --ios-gray-6: #F2F2F7;
+  
+  /* Backgrounds */
+  --ios-background: #F2F2F7;
+  --ios-secondary-background: #FFFFFF;
+  --ios-tertiary-background: #FFFFFF;
+  
+  /* Dark Mode */
+  --ios-dark-background: #000000;
+  --ios-dark-secondary: #1C1C1E;
+  --ios-dark-tertiary: #2C2C2E;
+  
+  /* Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.3);
+  --glass-shadow: rgba(0, 0, 0, 0.1);
+  
+  /* Squircle Radius */
+  --squircle-sm: 12px;
+  --squircle-md: 18px;
+  --squircle-lg: 24px;
+  --squircle-xl: 32px;
+  
+  /* Spacing (iOS Grid: 8px base) */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+  
+  /* Typography Scale */
+  --font-xs: 11px;
+  --font-sm: 13px;
+  --font-base: 17px; /* iOS body text */
+  --font-lg: 20px;
+  --font-xl: 28px;
+  --font-2xl: 34px;
+  --font-3xl: 48px;
+  
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+  --shadow-xl: 0 12px 48px rgba(0, 0, 0, 0.16);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ios-background: var(--ios-dark-background);
+    --ios-secondary-background: var(--ios-dark-secondary);
+    --ios-tertiary-background: var(--ios-dark-tertiary);
+    --glass-bg: rgba(28, 28, 30, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* ========== BASE STYLES ========== */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Helvetica Neue', sans-serif;
+  font-size: var(--font-base);
+  line-height: 1.47;
+  letter-spacing: -0.022em;
+  background: var(--ios-background);
+  color: #000000;
+  font-weight: 400;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    color: #FFFFFF;
+  }
+}
+
+/* ========== GLASSMORPHISM SYSTEM ========== */
+.ios-glass {
+  background: var(--glass-bg);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border: 0.5px solid var(--glass-border);
+  box-shadow: var(--shadow-md);
+}
+
+.ios-glass-strong {
+  background: var(--glass-bg);
+  backdrop-filter: saturate(200%) blur(30px);
+  -webkit-backdrop-filter: saturate(200%) blur(30px);
+  border: 0.5px solid var(--glass-border);
+  box-shadow: var(--shadow-lg);
+}
+
+.ios-glass-ultralight {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: saturate(150%) blur(10px);
+  -webkit-backdrop-filter: saturate(150%) blur(10px);
+  border: 0.5px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ========== SQUIRCLE CORNERS ========== */
+.squircle-sm {
+  border-radius: var(--squircle-sm);
+}
+
+.squircle-md {
+  border-radius: var(--squircle-md);
+}
+
+.squircle-lg {
+  border-radius: var(--squircle-lg);
+}
+
+.squircle-xl {
+  border-radius: var(--squircle-xl);
+}
+
+/* Enhanced squircle with smooth corners (iOS style) */
+.squircle-enhanced {
+  border-radius: var(--squircle-lg);
+  /* Simulate iOS squircle using clip-path for better effect */
+  position: relative;
+  overflow: hidden;
+}
+
+/* ========== CARDS & CONTAINERS ========== */
+.ios-card {
+  background: var(--ios-secondary-background);
+  border-radius: var(--squircle-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ios-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.ios-card-glass {
+  background: var(--glass-bg);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border: 0.5px solid var(--glass-border);
+  border-radius: var(--squircle-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.ios-card-elevated {
+  background: var(--ios-secondary-background);
+  border-radius: var(--squircle-xl);
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+/* ========== BUTTONS (iOS Style) ========== */
+.ios-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 13px 20px;
+  border-radius: var(--squircle-md);
+  font-size: var(--font-base);
+  font-weight: 600;
+  letter-spacing: -0.022em;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 50px;
+  position: relative;
+  overflow: hidden;
+}
+
+.ios-btn:active {
+  transform: scale(0.96);
+}
+
+.ios-btn-primary {
+  background: var(--ios-blue);
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+}
+
+.ios-btn-primary:hover {
+  background: #0051D5;
+  box-shadow: 0 6px 20px rgba(0, 122, 255, 0.4);
+}
+
+.ios-btn-secondary {
+  background: var(--ios-gray-6);
+  color: var(--ios-blue);
+}
+
+.ios-btn-danger {
+  background: var(--ios-red);
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(255, 59, 48, 0.3);
+}
+
+.ios-btn-glass {
+  background: var(--glass-bg);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  color: var(--ios-blue);
+  border: 0.5px solid var(--glass-border);
+  font-weight: 600;
+}
+
+/* ========== FLOATING NAVIGATION BAR ========== */
+.ios-navbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  padding-bottom: env(safe-area-inset-bottom, 20px);
+}
+
+.ios-navbar-container {
+  margin: 0 auto var(--spacing-md);
+  max-width: 420px;
+  padding: 0 var(--spacing-md);
+}
+
+.ios-navbar-glass {
+  background: var(--glass-bg);
+  backdrop-filter: saturate(200%) blur(30px);
+  -webkit-backdrop-filter: saturate(200%) blur(30px);
+  border: 0.5px solid var(--glass-border);
+  border-radius: var(--squircle-xl);
+  padding: 12px 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.ios-navbar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  border-radius: var(--squircle-md);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  color: var(--ios-gray);
+  text-decoration: none;
+  font-size: var(--font-xs);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  position: relative;
+}
+
+.ios-navbar-item:active {
+  transform: scale(0.95);
+}
+
+.ios-navbar-item.active {
+  color: var(--ios-blue);
+  background: rgba(0, 122, 255, 0.1);
+}
+
+.ios-navbar-icon {
+  font-size: 24px;
+  line-height: 1;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ios-navbar-item.active .ios-navbar-icon {
+  transform: scale(1.1);
+}
+
+/* ========== TYPOGRAPHY ========== */
+.ios-title-large {
+  font-size: var(--font-3xl);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.ios-title {
+  font-size: var(--font-2xl);
+  font-weight: 700;
+  letter-spacing: -0.026em;
+  line-height: 1.15;
+  margin: 0;
+}
+
+.ios-headline {
+  font-size: var(--font-xl);
+  font-weight: 600;
+  letter-spacing: -0.024em;
+  line-height: 1.25;
+}
+
+.ios-body {
+  font-size: var(--font-base);
+  font-weight: 400;
+  letter-spacing: -0.022em;
+  line-height: 1.47;
+}
+
+.ios-caption {
+  font-size: var(--font-sm);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+  color: var(--ios-gray);
+}
+
+.ios-footnote {
+  font-size: var(--font-xs);
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.3;
+  color: var(--ios-gray-2);
+}
+
+/* ========== FLUID ANIMATIONS ========== */
+@keyframes ios-scale-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes ios-slide-up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ios-fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes ios-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes ios-breathe {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(0, 122, 255, 0.4);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 20px rgba(0, 122, 255, 0);
+  }
+}
+
+.ios-animate-in {
+  animation: ios-scale-in 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ios-slide-up {
+  animation: ios-slide-up 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ios-fade-in {
+  animation: ios-fade-in 0.3s ease-out;
+}
+
+.ios-pulse {
+  animation: ios-pulse 2s ease-in-out infinite;
+}
+
+.ios-breathe {
+  animation: ios-breathe 2s ease-in-out infinite;
+}
+
+/* ========== EMERGENCY SOS SPECIAL ========== */
+.ios-sos-button {
+  background: linear-gradient(135deg, var(--ios-red) 0%, var(--ios-pink) 100%);
+  color: #FFFFFF;
+  padding: var(--spacing-lg);
+  border-radius: var(--squircle-xl);
+  font-size: var(--font-xl);
+  font-weight: 700;
+  box-shadow: 0 8px 32px rgba(255, 59, 48, 0.4);
+  position: relative;
+  overflow: hidden;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ios-sos-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(255, 59, 48, 0.5);
+}
+
+.ios-sos-button:active {
+  transform: scale(0.98);
+}
+
+.ios-sos-button.pulsating {
+  animation: ios-breathe 1.5s ease-in-out infinite;
+}
+
+/* ========== BADGE & PILLS ========== */
+.ios-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: var(--font-sm);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.ios-badge-blue {
+  background: rgba(0, 122, 255, 0.1);
+  color: var(--ios-blue);
+}
+
+.ios-badge-green {
+  background: rgba(52, 199, 89, 0.1);
+  color: var(--ios-green);
+}
+
+.ios-badge-red {
+  background: rgba(255, 59, 48, 0.1);
+  color: var(--ios-red);
+}
+
+.ios-badge-orange {
+  background: rgba(255, 149, 0, 0.1);
+  color: var(--ios-orange);
+}
+
+/* ========== CINEMATIC BACKGROUND ========== */
+.ios-cinematic-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.ios-gradient-mesh {
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 20% 50%, rgba(0, 122, 255, 0.15) 0%, transparent 50%),
+              radial-gradient(circle at 80% 80%, rgba(88, 86, 214, 0.15) 0%, transparent 50%),
+              radial-gradient(circle at 40% 20%, rgba(52, 199, 89, 0.1) 0%, transparent 50%);
+  animation: mesh-float 20s ease-in-out infinite;
+}
+
+@keyframes mesh-float {
+  0%, 100% {
+    transform: translate(-10%, -10%);
+  }
+  50% {
+    transform: translate(-30%, -20%);
+  }
+}
+
+/* ========== MINIMALIST DASHBOARD ========== */
+.ios-dashboard {
+  padding: var(--spacing-xl) var(--spacing-md);
+  padding-bottom: calc(100px + env(safe-area-inset-bottom, 20px));
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.ios-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-lg);
+}
+
+.ios-feature-card {
+  aspect-ratio: 1;
+  background: var(--ios-secondary-background);
+  border-radius: var(--squircle-lg);
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.ios-feature-card:active {
+  transform: scale(0.97);
+}
+
+.ios-feature-icon {
+  font-size: 48px;
+  line-height: 1;
+}
+
+.ios-feature-title {
+  font-size: var(--font-base);
+  font-weight: 600;
+  letter-spacing: -0.022em;
+  margin: 0;
+}
+
+/* ========== UTILITIES ========== */
+.ios-divider {
+  height: 0.5px;
+  background: var(--ios-gray-5);
+  border: none;
+  margin: var(--spacing-md) 0;
+}
+
+.ios-safe-top {
+  padding-top: env(safe-area-inset-top, 0);
+}
+
+.ios-safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 640px) {
+  .ios-dashboard {
+    padding: var(--spacing-lg) var(--spacing-sm);
+  }
+  
+  .ios-feature-grid {
+    gap: var(--spacing-sm);
+  }
+}
+
+/* ========== SMOOTH TRANSITIONS ========== */
+* {
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ========== INPUT FIELDS (iOS Style) ========== */
+.ios-input {
+  background: var(--ios-secondary-background);
+  border: 1px solid var(--ios-gray-5);
+  border-radius: var(--squircle-md);
+  padding: 13px 16px;
+  font-size: var(--font-base);
+  font-weight: 400;
+  letter-spacing: -0.022em;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+}
+
+.ios-input:focus {
+  border-color: var(--ios-blue);
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+}
+
+.ios-input::placeholder {
+  color: var(--ios-gray-2);
+}
