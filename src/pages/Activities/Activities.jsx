@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 import { useApp } from '../../contexts/AppContext'
 import { hasPermission } from '../../config/roles'
+import { exportActivities } from '../../utils/export'
 
 const Activities = () => {
   const navigate = useNavigate()
@@ -28,14 +29,23 @@ const Activities = () => {
     <div className="animate-fade-in">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold">Kegiatan</h1>
-        {canCreate && (
+        <div className="flex gap-2">
           <button
-            onClick={() => setShowAddModal(true)}
-            className="btn btn-primary"
+            onClick={() => exportActivities(activities)}
+            className="btn btn-secondary"
+            title="Export ke CSV"
           >
-            + Buat Kegiatan
+            📥 Export
           </button>
-        )}
+          {canCreate && (
+            <button
+              onClick={() => setShowAddModal(true)}
+              className="btn btn-primary"
+            >
+              + Buat Kegiatan
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Filter */}

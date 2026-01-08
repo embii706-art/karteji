@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 import { useApp } from '../../contexts/AppContext'
 import { ROLE_NAMES, hasPermission, canManageRole } from '../../config/roles'
+import { exportMembers } from '../../utils/export'
 
 const Members = () => {
   const navigate = useNavigate()
@@ -27,14 +28,23 @@ const Members = () => {
     <div className="animate-fade-in">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold">Daftar Anggota</h1>
-        {canAdd && (
+        <div className="flex gap-2">
           <button
-            onClick={() => setShowAddModal(true)}
-            className="btn btn-primary"
+            onClick={() => exportMembers(members)}
+            className="btn btn-secondary"
+            title="Export ke CSV"
           >
-            + Tambah Anggota
+            📥 Export
           </button>
-        )}
+          {canAdd && (
+            <button
+              onClick={() => setShowAddModal(true)}
+              className="btn btn-primary"
+            >
+              + Tambah Anggota
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Search and Filter */}

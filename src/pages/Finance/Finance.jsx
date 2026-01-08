@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useAuth } from '../../contexts/AuthContext'
 import { useApp } from '../../contexts/AppContext'
 import { hasPermission } from '../../config/roles'
+import { exportFinance } from '../../utils/export'
 
 const Finance = () => {
   const { user } = useAuth()
@@ -46,11 +47,20 @@ const Finance = () => {
     <div className="animate-fade-in">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold">Keuangan</h1>
-        {canAdd && (
-          <button onClick={() => setShowAddModal(true)} className="btn btn-primary">
-            + Tambah Transaksi
+        <div className="flex gap-2">
+          <button
+            onClick={() => exportFinance(finance)}
+            className="btn btn-secondary"
+            title="Export ke CSV"
+          >
+            📥 Export
           </button>
-        )}
+          {canAdd && (
+            <button onClick={() => setShowAddModal(true)} className="btn btn-primary">
+              + Tambah Transaksi
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Financial Summary */}

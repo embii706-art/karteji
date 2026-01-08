@@ -3,6 +3,7 @@ import { AppProvider } from './contexts/AppContext'
 import { ThemeProvider } from './contexts/ThemeContext'
 import { AuthProvider } from './contexts/AuthContext'
 import { OfflineProvider } from './contexts/OfflineContext'
+import { NotificationProvider } from './contexts/NotificationContext'
 
 // Layout
 import Layout from './components/Layout/Layout'
@@ -30,13 +31,14 @@ function App() {
   return (
     <Router>
       <ThemeProvider>
-        <OfflineProvider>
-          <AuthProvider>
-            <AppProvider>
-              <Routes>
-                {/* Public routes */}
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
+        <NotificationProvider>
+          <OfflineProvider>
+            <AuthProvider>
+              <AppProvider>
+                <Routes>
+                  {/* Public routes */}
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/register" element={<Register />} />
                 
                 {/* Protected routes */}
                 <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
@@ -62,7 +64,8 @@ function App() {
             </AppProvider>
           </AuthProvider>
         </OfflineProvider>
-      </ThemeProvider>
+      </NotificationProvider>
+    </ThemeProvider>
     </Router>
   )
 }
