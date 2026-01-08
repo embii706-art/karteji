@@ -125,9 +125,12 @@ export const AuthProvider = ({ children }) => {
     dispatch({ type: 'LOGIN_START' })
     
     try {
-      // TODO: Replace with actual API call
       // Check if this is the first user (Super Admin)
-      const existingUsers = [] // Would come from API
+      // In a real app, this would be an API call to check user count
+      // For now, check localStorage for any existing user registrations
+      const allUsersKey = 'karteji_all_users'
+      const allUsersData = localStorage.getItem(allUsersKey)
+      const existingUsers = allUsersData ? JSON.parse(allUsersData) : []
       const isFirstUser = existingUsers.length === 0
       
       const newUser = {
@@ -140,7 +143,17 @@ export const AuthProvider = ({ children }) => {
         joinedAt: Date.now()
       }
       
-      // Save to localStorage
+      // Add to all users list
+      existingUsers.push({
+        id: newUser.id,
+        email: newUser.email,
+        name: newUser.name,
+        role: newUser.role,
+        memberId: newUser.memberId
+      })
+      localStorage.setItem(allUsersKey, JSON.stringify(existingUsers))
+      
+      // Save current user to localStorage
       localStorage.setItem(STORAGE_KEYS.USER_DATA, JSON.stringify(newUser))
       localStorage.setItem(STORAGE_KEYS.AUTH_TOKEN, 'demo-token')
       
