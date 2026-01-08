@@ -1,0 +1,1 @@
+export { Aspirations } from '../PlaceholderPages'
