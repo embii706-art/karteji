@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { useAuth } from '../../contexts/AuthContext'
 import { generateMemberQR } from '../../utils/attendance'
 import { ROLE_NAMES } from '../../config/roles'
+import { Avatar } from '../../components/Avatar'
+import logo from '../../assets/logo.svg'
 
 const MemberCard = () => {
   const { user } = useAuth()
@@ -52,7 +54,7 @@ const MemberCard = () => {
           {/* Header with Logo */}
           <div className="bg-white/10 backdrop-blur-sm p-4">
             <div className="flex items-center gap-3">
-              <img src="/pwa-64x64.png" alt="Logo" className="w-12 h-12" />
+              <img src={logo} alt="Karteji Logo" className="w-12 h-12" />
               <div className="text-white">
                 <div className="font-bold text-lg">KARTEJI</div>
                 <div className="text-xs opacity-90">Karang Taruna Digital</div>
@@ -64,13 +66,7 @@ const MemberCard = () => {
           <div className="p-6 text-white">
             <div className="flex gap-4 mb-4">
               {/* Photo */}
-              <div className="w-24 h-24 rounded-lg bg-white/20 backdrop-blur-sm flex items-center justify-center overflow-hidden">
-                {user.photo ? (
-                  <img src={user.photo} alt={user.name} className="w-full h-full object-cover" />
-                ) : (
-                  <span className="text-4xl font-bold">{user.name?.charAt(0)}</span>
-                )}
-              </div>
+              <Avatar src={user.photo} name={user.name} size="xl" />
               
               {/* Info */}
               <div className="flex-1">

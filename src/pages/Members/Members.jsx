@@ -4,6 +4,7 @@ import { useAuth } from '../../contexts/AuthContext'
 import { useApp } from '../../contexts/AppContext'
 import { ROLE_NAMES, hasPermission, canManageRole } from '../../config/roles'
 import { exportMembers } from '../../utils/export'
+import { Avatar } from '../../components/Avatar'
 
 const Members = () => {
   const navigate = useNavigate()
@@ -115,13 +116,7 @@ const Members = () => {
               className="card hover:shadow-lg transition-shadow cursor-pointer"
             >
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold overflow-hidden">
-                  {member.photo ? (
-                    <img src={member.photo} alt={member.name} className="w-full h-full object-cover" />
-                  ) : (
-                    member.name.charAt(0).toUpperCase()
-                  )}
-                </div>
+                <Avatar src={member.photo} name={member.name} size="md" />
                 <div className="flex-1">
                   <h3 className="font-bold">{member.name}</h3>
                   <div className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-400">

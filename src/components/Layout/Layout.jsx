@@ -2,6 +2,7 @@ import { Outlet, NavLink } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 import { useOffline } from '../../contexts/OfflineContext'
 import { useTheme } from '../../contexts/ThemeContext'
+import logo from '../../assets/logo.svg'
 
 const Layout = () => {
   const { user, logout } = useAuth()
@@ -32,7 +33,7 @@ const Layout = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-3">
-              <img src="/pwa-64x64.png" alt="Logo" className="w-10 h-10" />
+              <img src={logo} alt="Karteji Logo" className="w-10 h-10" />
               <div>
                 <h1 className="text-xl font-bold text-primary-600 dark:text-primary-400">
                   Karteji

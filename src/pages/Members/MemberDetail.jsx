@@ -5,6 +5,7 @@ import { useApp } from '../../contexts/AppContext'
 import { ROLE_NAMES, hasPermission, canManageRole } from '../../config/roles'
 import { generateMemberQR } from '../../utils/attendance'
 import QRCode from 'qrcode'
+import { Avatar } from '../../components/Avatar'
 
 const MemberDetail = () => {
   const { id } = useParams()
@@ -102,13 +103,7 @@ const MemberDetail = () => {
       <div className="card mb-6">
         <div className="flex flex-col md:flex-row gap-6">
           <div className="flex flex-col items-center gap-4">
-            <div className="w-32 h-32 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-4xl font-bold overflow-hidden">
-              {member.photo ? (
-                <img src={member.photo} alt={member.name} className="w-full h-full object-cover" />
-              ) : (
-                member.name.charAt(0).toUpperCase()
-              )}
-            </div>
+            <Avatar src={member.photo} name={member.name} size="xl" className="w-32 h-32" />
             {qrImage && (
               <div className="bg-white p-2 rounded-lg">
                 <img src={qrImage} alt="QR Code" className="w-32 h-32" />

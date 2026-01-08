@@ -3,6 +3,7 @@ import { useAuth } from '../../contexts/AuthContext'
 import { useApp } from '../../contexts/AppContext'
 import { ROLE_NAMES } from '../../config/roles'
 import { compressImage } from '../../utils/image'
+import { Avatar } from '../../components/Avatar'
 
 const Profile = () => {
   const { user, updateUser } = useAuth()
@@ -64,15 +65,9 @@ const Profile = () => {
       <div className="card mb-6">
         <div className="flex items-start gap-4 mb-6">
           <div className="relative">
-            <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-3xl font-bold overflow-hidden">
-              {formData.photo ? (
-                <img src={formData.photo} alt="Profile" className="w-full h-full object-cover" />
-              ) : (
-                user?.name?.charAt(0).toUpperCase()
-              )}
-            </div>
+            <Avatar src={formData.photo} name={user?.name} size="xl" />
             {isEditing && (
-              <label className="absolute bottom-0 right-0 bg-primary text-white rounded-full p-1 cursor-pointer">
+              <label className="absolute bottom-0 right-0 bg-primary text-white rounded-full p-1 cursor-pointer hover:bg-primary-dark transition-colors">
                 <input
                   type="file"
                   accept="image/*"
