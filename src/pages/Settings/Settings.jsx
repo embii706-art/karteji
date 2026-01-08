@@ -1,14 +1,48 @@
+import { useState } from 'react'
 import { useTheme } from '../../contexts/ThemeContext'
 import { useAuth } from '../../contexts/AuthContext'
-import { ROLE_NAMES } from '../../config/roles'
+import { ROLE_NAMES, ROLES } from '../../config/roles'
+import { resetDatabase, confirmReset, doubleConfirmReset } from '../../utils/resetDatabase'
 
 const Settings = () => {
   const { theme, setTheme } = useTheme()
   const { user, logout } = useAuth()
+  const [isResetting, setIsResetting] = useState(false)
 
   const handleLogout = () => {
     if (confirm('Apakah Anda yakin ingin keluar?')) {
       logout()
+    }
+  }
+
+  const handleResetDatabase = async () => {
+    // First confirmation
+    if (!confirmReset()) {
+      return
+    }
+    
+    // Double confirmation with typed input
+    if (!doubleConfirmReset()) {
+      alert('❌ Database reset cancelled. The confirmation text did not match.')
+      return
+    }
+    
+    setIsResetting(true)
+    
+    try {
+      const result = await resetDatabase()
+      
+      if (result.success) {
+        alert('✅ Database reset successful!\n\nThe app will now reload. You can register a new Super Admin account.')
+        // Force reload to clear all state
+        window.location.href = '/register'
+      } else {
+        alert(`❌ Database reset failed: ${result.error}`)
+        setIsResetting(false)
+      }
+    } catch (error) {
+      alert(`❌ Database reset error: ${error.message}`)
+      setIsResetting(false)
     }
   }
 
@@ -133,14 +167,53 @@ const Settings = () => {
       </div>
 
       {/* Danger Zone */}
-      <div className="card border-2 border-red-200 dark:border-red-900">
-        <h2 className="font-bold text-lg mb-4 text-red-600">Zona Berbahaya</h2>
-        <button
-          onClick={handleLogout}
-          className="btn w-full bg-red-600 hover:bg-red-700 text-white"
-        >
-          🚪 Keluar dari Akun
-        </button>
+      <div className="card border-2 border-red-200 dark:border-red-900 mb-6">
+        <h2 className="font-bold text-lg mb-4 text-red-600 dark:text-red-400">⚠️ Zona Berbahaya</h2>
+        
+        <div className="space-y-3">
+          <button
+            onClick={handleLogout}
+            className="btn w-full bg-red-600 hover:bg-red-700 text-white"
+          >
+            🚪 Keluar dari Akun
+          </button>
+          
+          {/* Super Admin Only - Reset Database */}
+          {user?.role === ROLES.SUPER_ADMIN && (
+            <>
+              <div className="pt-3 border-t-2 border-red-300 dark:border-red-800">
+                <div className="bg-red-50 dark:bg-red-900/20 rounded-lg p-4 mb-3">
+                  <h3 className="font-bold text-red-700 dark:text-red-400 mb-2">
+                    🗑️ Reset Database (Super Admin Only)
+                  </h3>
+                  <p className="text-sm text-red-600 dark:text-red-300 mb-2">
+                    This will permanently delete ALL data:
+                  </p>
+                  <ul className="text-xs text-red-600 dark:text-red-400 space-y-1 ml-4">
+                    <li>• All user accounts and registrations</li>
+                    <li>• All activities, events, and attendance records</li>
+                    <li>• All financial transactions and records</li>
+                    <li>• All announcements and aspirations</li>
+                    <li>• All premium features data (Weather, Calendar, etc.)</li>
+                    <li>• Emergency contacts and SOS history</li>
+                    <li>• Waste bank, marketplace, and religious data</li>
+                  </ul>
+                  <p className="text-sm text-red-700 dark:text-red-300 mt-3 font-semibold">
+                    ⚠️ This action cannot be undone! The app will restart from scratch.
+                  </p>
+                </div>
+                
+                <button
+                  onClick={handleResetDatabase}
+                  disabled={isResetting}
+                  className="btn w-full bg-red-700 hover:bg-red-800 text-white font-bold disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isResetting ? '🔄 Resetting Database...' : '💥 Reset All Data & Start Fresh'}
+                </button>
+              </div>
+            </>
+          )}
+        </div>
       </div>
     </div>
   )
