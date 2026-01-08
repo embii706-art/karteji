@@ -124,6 +124,62 @@ const Dashboard = () => {
           </Link>
         </div>
       </div>
+
+      {/* v1.5 Premium Features */}
+      <div className="card mb-6">
+        <h3 className="font-bold mb-4 flex items-center gap-2">
+          <span>✨</span> Fitur Premium v1.5
+        </h3>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <Link 
+            to="/weather" 
+            className="aspect-square rounded-xl bg-gradient-to-br from-blue-400 to-cyan-600 p-4 hover:scale-105 transition-transform flex flex-col items-center justify-center text-white shadow-lg"
+          >
+            <div className="text-4xl mb-2">🌤️</div>
+            <div className="text-sm font-medium text-center">Weather</div>
+          </Link>
+          
+          <Link 
+            to="/religious" 
+            className="aspect-square rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 p-4 hover:scale-105 transition-transform flex flex-col items-center justify-center text-white shadow-lg"
+          >
+            <div className="text-4xl mb-2">☪️</div>
+            <div className="text-sm font-medium text-center">Islamic Hub</div>
+          </Link>
+          
+          <Link 
+            to="/waste-bank" 
+            className="aspect-square rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 p-4 hover:scale-105 transition-transform flex flex-col items-center justify-center text-white shadow-lg"
+          >
+            <div className="text-4xl mb-2">♻️</div>
+            <div className="text-sm font-medium text-center">Waste Bank</div>
+          </Link>
+          
+          <Link 
+            to="/calendar" 
+            className="aspect-square rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 p-4 hover:scale-105 transition-transform flex flex-col items-center justify-center text-white shadow-lg"
+          >
+            <div className="text-4xl mb-2">📅</div>
+            <div className="text-sm font-medium text-center">Calendar</div>
+          </Link>
+          
+          <Link 
+            to="/marketplace" 
+            className="aspect-square rounded-xl bg-gradient-to-br from-orange-500 to-red-600 p-4 hover:scale-105 transition-transform flex flex-col items-center justify-center text-white shadow-lg"
+          >
+            <div className="text-4xl mb-2">🛒</div>
+            <div className="text-sm font-medium text-center">Market</div>
+          </Link>
+          
+          <Link 
+            to="/emergency" 
+            className="aspect-square rounded-xl bg-gradient-to-br from-red-600 to-rose-700 p-4 hover:scale-105 transition-transform flex flex-col items-center justify-center text-white shadow-lg animate-pulse-soft"
+          >
+            <div className="text-4xl mb-2">🚨</div>
+            <div className="text-sm font-medium text-center">SOS</div>
+          </Link>
+        </div>
+      </div>
       
       {/* Recent Announcements */}
       <div className="card">

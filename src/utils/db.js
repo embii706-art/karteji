@@ -76,6 +76,44 @@ export const initDB = async () => {
         queueStore.createIndex('timestamp', 'timestamp')
         queueStore.createIndex('type', 'type')
       }
+      
+      // Waste Bank store
+      if (!db.objectStoreNames.contains(DB_CONFIG.stores.wasteBank)) {
+        const wasteStore = db.createObjectStore(DB_CONFIG.stores.wasteBank, {
+          keyPath: 'id'
+        })
+        wasteStore.createIndex('userId', 'userId')
+        wasteStore.createIndex('timestamp', 'timestamp')
+      }
+      
+      // Calendar store
+      if (!db.objectStoreNames.contains(DB_CONFIG.stores.calendar)) {
+        const calendarStore = db.createObjectStore(DB_CONFIG.stores.calendar, {
+          keyPath: 'id'
+        })
+        calendarStore.createIndex('date', 'date')
+        calendarStore.createIndex('type', 'type')
+      }
+      
+      // Marketplace store
+      if (!db.objectStoreNames.contains(DB_CONFIG.stores.marketplace)) {
+        const marketStore = db.createObjectStore(DB_CONFIG.stores.marketplace, {
+          keyPath: 'id'
+        })
+        marketStore.createIndex('sellerId', 'sellerId')
+        marketStore.createIndex('category', 'category')
+        marketStore.createIndex('status', 'status')
+      }
+      
+      // Emergency store
+      if (!db.objectStoreNames.contains(DB_CONFIG.stores.emergency)) {
+        const emergencyStore = db.createObjectStore(DB_CONFIG.stores.emergency, {
+          keyPath: 'id'
+        })
+        emergencyStore.createIndex('userId', 'userId')
+        emergencyStore.createIndex('timestamp', 'timestamp')
+        emergencyStore.createIndex('status', 'status')
+      }
     }
   })
   

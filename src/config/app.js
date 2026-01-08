@@ -2,7 +2,7 @@
 export const APP_CONFIG = {
   name: 'Karteji',
   fullName: 'Karang Taruna Digital',
-  version: '1.0.0',
+  version: '1.5.0',
   description: 'Aplikasi digital untuk manajemen organisasi Karang Taruna',
   
   // Customize these for each organization
@@ -81,7 +81,7 @@ export const STORAGE_KEYS = {
 // IndexedDB configuration
 export const DB_CONFIG = {
   name: 'KartejiDB',
-  version: 1,
+  version: 2,
   stores: {
     members: 'members',
     activities: 'activities',
@@ -90,6 +90,10 @@ export const DB_CONFIG = {
     finance: 'finance',
     aspirations: 'aspirations',
     offlineQueue: 'offline_queue',
+    wasteBank: 'waste_bank',
+    calendar: 'calendar',
+    marketplace: 'marketplace',
+    emergency: 'emergency',
   }
 }
 
