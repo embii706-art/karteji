@@ -1,1 +1,1 @@
-export { Profile } from './PlaceholderPages'
+export { Profile } from '../PlaceholderPages'
