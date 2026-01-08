@@ -1,6 +1,9 @@
 import { openDB } from 'idb'
 import { DB_CONFIG } from '../config/app'
 
+// Re-export DB_CONFIG for use in other modules
+export { DB_CONFIG }
+
 let dbInstance = null
 
 // Initialize IndexedDB
