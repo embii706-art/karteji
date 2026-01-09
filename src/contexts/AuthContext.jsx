@@ -1,5 +1,6 @@
 import { createContext, useContext, useReducer, useEffect } from 'react'
 import { STORAGE_KEYS } from '../config/app'
+import { getUsersCount, createUser as fsCreateUser } from '../services/firestoreUsers'
 
 const AuthContext = createContext()
 
@@ -125,25 +126,49 @@ export const AuthProvider = ({ children }) => {
     dispatch({ type: 'LOGIN_START' })
     
     try {
-      // Check if this is the first user (Super Admin)
-      // In a real app, this would be an API call to check user count
-      // For now, check localStorage for any existing user registrations
-      const allUsersKey = 'karteji_all_users'
-      const allUsersData = localStorage.getItem(allUsersKey)
-      const existingUsers = allUsersData ? JSON.parse(allUsersData) : []
-      const isFirstUser = existingUsers.length === 0
+      // Determine first-user status from Firestore (source of truth)
+      let isFirstUser = false
+      try {
+        const count = await getUsersCount()
+        isFirstUser = count === 0
+      } catch (e) {
+        // Fallback to localStorage if Firestore check fails
+        const allUsersKey = 'karteji_all_users'
+        const allUsersData = localStorage.getItem(allUsersKey)
+        const existingUsers = allUsersData ? JSON.parse(allUsersData) : []
+        isFirstUser = existingUsers.length === 0
+      }
       
       const newUser = {
         id: Date.now().toString(),
         ...userData,
         role: isFirstUser ? 'super_admin' : 'anggota',
         photo: null,
-        memberId: `KT-2026-${String(existingUsers.length + 1).padStart(3, '0')}`,
+        // memberId will be sequential locally; Firestore does not enforce sequence
+        memberId: `KT-2026-${String(Math.floor(Math.random() * 999) + 1).padStart(3, '0')}`,
         status: 'active',
         joinedAt: Date.now()
       }
-      
-      // Add to all users list
+
+      // Persist to Firestore (primary)
+      try {
+        await fsCreateUser({
+          id: newUser.id,
+          email: newUser.email,
+          name: newUser.name,
+          role: newUser.role,
+          memberId: newUser.memberId,
+          status: newUser.status,
+          joinedAt: newUser.joinedAt
+        })
+      } catch (e) {
+        console.warn('Failed to persist user to Firestore, proceeding with local storage fallback', e)
+      }
+
+      // Maintain local list for backward compatibility
+      const allUsersKey = 'karteji_all_users'
+      const allUsersData = localStorage.getItem(allUsersKey)
+      const existingUsers = allUsersData ? JSON.parse(allUsersData) : []
       existingUsers.push({
         id: newUser.id,
         email: newUser.email,
