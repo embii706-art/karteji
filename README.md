@@ -223,14 +223,46 @@ npm run preview
 2. Enable Firestore Database
 3. Enable Firebase Storage
 4. Copy config ke \`src/lib/firebase.js\`
+5. **Deploy Firestore Security Rules** (IMPORTANT!)
+
+### Firestore Security Rules
+
+**Deploy via Firebase Console:**
+1. Go to Firestore Database → Rules tab
+2. Copy paste content dari `firestore.rules`
+3. Click **Publish**
+
+**Deploy via CLI:**
+```bash
+firebase deploy --only firestore:rules
+```
 
 **Firestore Collections:**
-- \`users\` - User data
-- \`events\` - Kegiatan
-- \`votings\` - Voting sessions
-- \`finances\` - Keuangan
+- `users` - User data with RBAC
+- `financial_records` - Catatan keuangan (Bendahara + ACC by Wakil Ketua)
+- `activities` - Kegiatan (Pengurus create, Core Admin ACC)
+- `events` - Kegiatan (existing app)
+- `votings` / `polls` - Voting/Musyawarah
+- `finances` - Keuangan (existing app, read-only for transparency)
+- `announcements` - Pengumuman
+- `arisan_history` - Riwayat arisan
+- `inventory` - Inventaris barang
+- `archives` - Arsip dokumen
+- `letters` - Surat menyurat
+- `minutes` - Notulensi rapat
+- `gathering_history` - Titik kumpul
 
-Lihat: [docs/SETUP_DATA.md](docs/SETUP_DATA.md)
+**Role-Based Access:**
+- `super_admin` - Full access
+- `ketua` - Core admin dengan approval authority
+- `wakil_ketua` - ACC transaksi keuangan & kegiatan
+- `sekretaris` - Administrasi, surat, arsip, notulen
+- `bendahara` - Keuangan, transaksi
+- `koordinator` - Arisan, inventory, polling
+- `anggota` - Read access, vote, attendance
+
+Lihat detail: [docs/FIRESTORE_RULES.md](docs/FIRESTORE_RULES.md)  
+Sample data: [docs/SETUP_DATA.md](docs/SETUP_DATA.md)
 
 ---
 
@@ -258,6 +290,7 @@ firebase deploy --only hosting
 
 ## 📖 Documentation
 
+- [docs/FIRESTORE_RULES.md](docs/FIRESTORE_RULES.md) - Firestore Security Rules & RBAC
 - [docs/SETUP_DATA.md](docs/SETUP_DATA.md) - Firebase data setup
 - [docs/USER_GUIDE.md](docs/USER_GUIDE.md) - User guide lengkap
 
