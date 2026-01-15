@@ -19,37 +19,26 @@ export default function ProfileScreen() {
       setLoading(true)
       setError(null)
 
-      const userId = 'demo-user-001'
+      const userId = localStorage.getItem('karteji_userId') || 'user-001'
 
-      // Load user profile
+      // Load user profile from Firebase
       const profile = await getUserProfile(userId)
-      setUserData(profile || {
-        name: 'Andi Wijaya',
-        email: 'andi@example.com',
-        role: 'Anggota Aktif',
-        photoUrl: 'karteji-user-001',
-        joinDate: 'Januari 2023',
-      })
+      if (!profile) throw new Error('Profile not found')
+      setUserData(profile)
 
-      // Load activity points
+      // Load activity points from Firebase
       const points = await getUserActivityPoints(userId)
-      setActivityPoints(points || 245)
+      setActivityPoints(points || 0)
 
-      // Load attendance record
+      // Load attendance record from Firebase
       const attendance = await getUserAttendance(userId)
-      setAttendanceRecord(attendance)
+      setAttendanceRecord(attendance || [])
     } catch (err) {
       console.error('Error loading profile data:', err)
       setError(err.message)
-      // Fallback data
-      setUserData({
-        name: 'Andi Wijaya',
-        email: 'andi.wijaya@email.com',
-        role: 'Anggota Aktif',
-        joinDate: 'Januari 2023',
-        photoUrl: null,
-      })
-      setActivityPoints(245)
+      setUserData(null)
+      setActivityPoints(0)
+      setAttendanceRecord([])
     } finally {
       setLoading(false)
     }

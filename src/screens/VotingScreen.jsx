@@ -1,47 +1,64 @@
-import React, { useState } from 'react'
-import { Home, Calendar, MessageSquare, Wallet, User, Clock, TrendingUp } from 'lucide-react'
+import React, { useState, useEffect } from 'react'
+import { Home, Calendar, MessageSquare, Wallet, User, Clock, TrendingUp, AlertCircle } from 'lucide-react'
+import { getActiveVoting, submitVote, getVotingResults } from '../services/firestoreService'
+import { getProfilePhotoUrl } from '../lib/cloudinary'
 
 export default function VotingScreen() {
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const [voting, setVoting] = useState(null)
   const [voted, setVoted] = useState(false)
   const [selectedOption, setSelectedOption] = useState(null)
 
-  const voting = {
-    title: 'Pemilihan Ketua Karang Taruna Periode 2025-2027',
-    description: 'Silakan pilih calon ketua Karang Taruna yang Anda dukung untuk periode 2025-2027',
-    endTime: '17 Januari 2025, 20:00',
-    totalVoters: 45,
-    candidates: [
-      {
-        id: 1,
-        name: 'Andi Wijaya',
-        background: 'Pelatih Olahraga',
-        votes: 18,
-        image: 'AW',
-        bgColor: 'bg-blue-200',
-      },
-      {
-        id: 2,
-        name: 'Siti Nurhaliza',
-        background: 'Pengelola Keuangan',
-        votes: 15,
-        image: 'SN',
-        bgColor: 'bg-purple-200',
-      },
-      {
-        id: 3,
-        name: 'Budi Santoso',
-        background: 'Koordinator Program',
-        votes: 12,
-        image: 'BS',
-        bgColor: 'bg-green-200',
-      },
-    ],
+  useEffect(() => {
+    loadVotingData()
+  }, [])
+
+  const loadVotingData = async () => {
+    try {
+      setLoading(true)
+      setError(null)
+
+      // Get active voting from Firebase
+      const activeVoting = await getActiveVoting()
+      if (!activeVoting) {
+        throw new Error('Tidak ada voting aktif saat ini')
+      }
+      setVoting(activeVoting)
+
+      // Check if user already voted
+      const userId = localStorage.getItem('karteji_userId') || 'user-001'
+      const hasVoted = activeVoting.voters?.includes(userId)
+      setVoted(hasVoted)
+    } catch (err) {
+      console.error('Error loading voting data:', err)
+      setError(err.message)
+      setVoting(null)
+    } finally {
+      setLoading(false)
+    }
   }
 
-  const handleVote = () => {
-    if (selectedOption !== null) {
+  const handleVote = async () => {
+    if (selectedOption === null) return
+
+    try {
+      const userId = localStorage.getItem('karteji_userId') || 'user-001'
+      await submitVote(voting.id, selectedOption, userId)
       setVoted(true)
+      loadVotingData()
+    } catch (err) {
+      alert('Gagal submit vote: ' + err.message)
     }
+  }
+
+  if (loading) {
+    return (
+      <div className="bg-background min-h-screen flex flex-col items-center justify-center pb-20">
+        <div className="animate-spin w-12 h-12 border-4 border-primary border-t-accent rounded-full"></div>
+        <p className="text-text-light mt-4">Memuat data voting...</p>
+      </div>
+    )
   }
 
   return (
@@ -63,55 +80,79 @@ export default function VotingScreen() {
 
       {/* Content */}
       <div className="flex-1 overflow-y-auto px-4 py-4">
-        {/* Voting Header */}
-        <div className="bg-white border border-border-light rounded-lg p-4 mb-6 shadow-sm">
-          <h2 className="font-bold text-sm text-text-dark mb-2">{voting.title}</h2>
-          <p className="text-xs text-text-light mb-4">{voting.description}</p>
-
-          {/* Countdown */}
-          <div className="flex items-center gap-2 bg-yellow-50 border border-accent border-opacity-30 rounded p-3 mb-4">
-            <Clock className="w-4 h-4 text-accent-dark flex-shrink-0" />
-            <div className="text-xs">
-              <p className="font-bold text-accent-dark">Ditutup: {voting.endTime}</p>
-              <p className="text-text-light">Total pemilih: {voting.totalVoters}</p>
+        {error && (
+          <div className="bg-red-50 border border-danger border-opacity-30 rounded-lg p-4 mb-4 flex gap-2">
+            <AlertCircle className="w-5 h-5 text-danger flex-shrink-0" />
+            <div>
+              <p className="text-sm font-bold text-danger">Error</p>
+              <p className="text-sm text-text-dark">{error}</p>
             </div>
           </div>
-        </div>
+        )}
 
-        {!voted ? (
+        {!voting && !error && (
+          <div className="text-center py-12">
+            <p className="text-text-light">Tidak ada voting aktif saat ini</p>
+          </div>
+        )}
+
+        {voting && (
           <>
-            {/* Candidates */}
-            <p className="text-xs font-bold text-text-light uppercase tracking-wider mb-3">Pilih Calon Ketua</p>
-            <div className="space-y-3 mb-6">
-              {voting.candidates.map((candidate) => (
-                <div
-                  key={candidate.id}
-                  onClick={() => setSelectedOption(candidate.id)}
-                  className={`border-2 rounded-lg p-4 cursor-pointer transition ${
-                    selectedOption === candidate.id
-                      ? 'border-primary bg-blue-50'
-                      : 'border-border-light hover:border-primary hover:bg-blue-50'
-                  }`}
-                >
-                  <div className="flex items-start gap-3">
-                    {/* Candidate Avatar */}
-                    <div className={`${candidate.bgColor} w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm text-text-dark flex-shrink-0`}>
-                      {candidate.image}
-                    </div>
+            {/* Voting Header */}
+            <div className="bg-white border border-border-light rounded-lg p-4 mb-6 shadow-sm">
+              <h2 className="font-bold text-sm text-text-dark mb-2">{voting.title}</h2>
+              <p className="text-xs text-text-light mb-4">{voting.description}</p>
+
+              {/* Countdown */}
+              <div className="flex items-center gap-2 bg-yellow-50 border border-accent border-opacity-30 rounded p-3 mb-4">
+                <Clock className="w-4 h-4 text-accent-dark flex-shrink-0" />
+                <div className="text-xs">
+                  <p className="font-bold text-accent-dark">Ditutup: {voting.endTime}</p>
+                  <p className="text-text-light">Total pemilih: {voting.totalVoters || 0}</p>
+                </div>
+              </div>
+            </div>
+
+            {!voted ? (
+              <>
+                {/* Candidates */}
+                <p className="text-xs font-bold text-text-light uppercase tracking-wider mb-3">Pilih Calon</p>
+                <div className="space-y-3 mb-6">
+                  {voting.candidates?.map((candidate) => {
+                    const photoUrl = candidate.photoUrl ? getProfilePhotoUrl(candidate.photoUrl) : null
+                    return (
+                      <div
+                        key={candidate.id}
+                        onClick={() => setSelectedOption(candidate.id)}
+                        className={`border-2 rounded-lg p-4 cursor-pointer transition ${
+                          selectedOption === candidate.id
+                            ? 'border-primary bg-blue-50'
+                            : 'border-border-light hover:border-primary hover:bg-blue-50'
+                        }`}
+                      >
+                        <div className="flex items-start gap-3">
+                          {/* Candidate Avatar */}
+                          {photoUrl ? (
+                            <img src={photoUrl} alt={candidate.name} className="w-12 h-12 rounded-full object-cover flex-shrink-0" />
+                          ) : (
+                            <div className="bg-blue-200 w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm text-text-dark flex-shrink-0">
+                              {candidate.name?.split(' ').map(n => n[0]).join('')}
+                            </div>
+                          )}
 
                     {/* Candidate Info */}
                     <div className="flex-1">
                       <h3 className="font-bold text-sm text-text-dark">{candidate.name}</h3>
-                      <p className="text-xs text-text-light mb-2">{candidate.background}</p>
+                      <p className="text-xs text-text-light mb-2">{candidate.background || 'Kandidat'}</p>
 
                       {/* Vote Progress */}
                       <div className="w-full bg-border-light rounded-full h-1.5 mb-1">
                         <div
                           className="bg-primary h-1.5 rounded-full"
-                          style={{ width: `${(candidate.votes / voting.totalVoters) * 100}%` }}
+                          style={{ width: `${voting.totalVoters > 0 ? (candidate.votes / voting.totalVoters) * 100 : 0}%` }}
                         />
                       </div>
-                      <p className="text-xs text-text-light">{candidate.votes} suara</p>
+                      <p className="text-xs text-text-light">{candidate.votes || 0} suara</p>
                     </div>
 
                     {/* Radio Button */}
@@ -126,37 +167,40 @@ export default function VotingScreen() {
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
+                    )
+                  })}
+                </div>
 
-            {/* Vote Button */}
-            <button
-              onClick={handleVote}
-              disabled={selectedOption === null}
-              className={`w-full font-bold py-3 rounded-lg transition ${
-                selectedOption === null
-                  ? 'bg-border-light text-text-light cursor-not-allowed'
-                  : 'bg-success text-white hover:opacity-90'
-              }`}
-            >
-              Kirim Suara
-            </button>
+                {/* Vote Button */}
+                <button
+                  onClick={handleVote}
+                  disabled={selectedOption === null}
+                  className={`w-full font-bold py-3 rounded-lg transition ${
+                    selectedOption === null
+                      ? 'bg-border-light text-text-light cursor-not-allowed'
+                      : 'bg-success text-white hover:opacity-90'
+                  }`}
+                >
+                  Kirim Suara
+                </button>
+              </>
+            ) : (
+              /* Voted Confirmation */
+              <div className="bg-green-50 border border-success rounded-lg p-6 text-center">
+                <div className="w-16 h-16 bg-success text-white rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+                  ✓
+                </div>
+                <h3 className="font-bold text-lg text-success mb-2">Terima Kasih!</h3>
+                <p className="text-sm text-text-light mb-6">
+                  Suara Anda telah dicatat dengan aman.
+                </p>
+                <p className="text-xs text-text-light">
+                  Hasil voting akan diumumkan setelah masa pemilihan berakhir.
+                </p>
+              </div>
+            )}
           </>
-        ) : (
-          /* Voted Confirmation */
-          <div className="bg-green-50 border border-success rounded-lg p-6 text-center">
-            <div className="w-16 h-16 bg-success text-white rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
-              ✓
-            </div>
-            <h3 className="font-bold text-lg text-success mb-2">Terima Kasih!</h3>
-            <p className="text-sm text-text-light mb-6">
-              Suara Anda untuk <strong>{voting.candidates.find(c => c.id === selectedOption)?.name}</strong> telah dicatat dengan aman.
-            </p>
-            <p className="text-xs text-text-light mb-4">
-              Hasil voting akan diumumkan setelah masa pemilihan berakhir.
-            </p>
-            <button
-              onClick={() => setVoted(false)}
+        )}
               className="text-xs font-bold text-success hover:underline"
             >
               Kembali ke Kandidat

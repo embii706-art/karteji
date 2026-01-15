@@ -17,33 +17,11 @@ export default function EventsScreen() {
       setLoading(true)
       setError(null)
       const eventsData = await getEvents(10)
-      setEvents(eventsData)
+      setEvents(eventsData || [])
     } catch (err) {
       console.error('Error loading events:', err)
       setError(err.message)
-      // Fallback data
-      setEvents([
-        {
-          id: 1,
-          title: 'Bakti Sosial Bersih Lingkungan',
-          date: '15 Januari 2025',
-          time: '08:00 - 11:00',
-          location: 'Jalan Utama RT 05',
-          category: 'Bakti Sosial',
-          status: 'Aktif',
-          attendees: 24,
-        },
-        {
-          id: 2,
-          title: 'Olahraga Rutin - Futsal',
-          date: '17 Januari 2025',
-          time: '19:00 - 21:00',
-          location: 'Lapangan Futsal Komplek',
-          category: 'Olahraga',
-          status: 'Aktif',
-          attendees: 12,
-        },
-      ])
+      setEvents([])
     } finally {
       setLoading(false)
     }
@@ -52,7 +30,7 @@ export default function EventsScreen() {
   const handleRegister = async (eventId) => {
     try {
       setRegistering({ ...registering, [eventId]: true })
-      const userId = 'demo-user-001'
+      const userId = localStorage.getItem('karteji_userId') || 'user-001'
       await registerEventAttendance(eventId, userId)
       alert('Kehadiran berhasil didaftarkan!')
       loadEvents()

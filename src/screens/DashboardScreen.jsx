@@ -16,26 +16,23 @@ export default function DashboardScreen() {
         setLoading(true)
         setError(null)
 
-        // Mock user ID - in real app, get from auth
-        const userId = 'demo-user-001'
+        // Get user ID from localStorage or auth
+        const userId = localStorage.getItem('karteji_userId') || 'user-001'
 
-        // Load user profile
+        // Load user profile from Firebase
         const profile = await getUserProfile(userId)
-        setUserData(profile || {
-          name: 'Andi Wijaya',
-          email: 'andi@example.com',
-          activityPoints: 245,
-        })
+        if (!profile) throw new Error('Profile not found')
+        setUserData(profile)
 
-        // Load upcoming events
+        // Load upcoming events from Firebase
         const events = await getEvents(1)
         setUpcomingEvent(events[0] || null)
 
-        // Load announcements
+        // Load announcements from Firebase
         const anns = await getAnnouncements(2)
         setAnnouncements(anns)
 
-        // Load attendance
+        // Load attendance from Firebase
         const currentMonth = new Date().getMonth() + 1
         const att = await getUserAttendance(userId, currentMonth)
         setAttendance({
@@ -62,9 +59,9 @@ export default function DashboardScreen() {
     )
   }
 
-  const greetingName = userData?.name?.split(' ')[0] || 'Andi'
-  const activityPoints = userData?.activityPoints || 245
-  const attendanceCount = attendance.total || 8
+  const greetingName = userData?.name?.split(' ')[0] || 'User'
+  const activityPoints = userData?.activityPoints || 0
+  const attendanceCount = attendance.total || 0
 
   return (
     <div className="bg-gradient-to-b from-blue-50 to-background min-h-screen flex flex-col pb-20">

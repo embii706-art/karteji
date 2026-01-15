@@ -18,36 +18,24 @@ export default function FinanceScreen() {
       setLoading(true)
       setError(null)
 
-      // Load finance summary
+      // Load finance summary from Firebase
       const summary = await getFinanceSummary()
-      setFinanceSummary(summary || {
-        balance: 2475000,
-        monthIncome: 725000,
-        monthExpenses: 550000,
-      })
+      if (!summary) throw new Error('Finance data not found')
+      setFinanceSummary(summary)
 
-      // Load transactions
+      // Load transactions from Firebase
       const txns = await getTransactions(10)
-      setTransactions(txns)
+      setTransactions(txns || [])
 
-      // Load monthly data
+      // Load monthly data from Firebase
       const now = new Date()
       const monthly = await getMonthlyFinance(now.getFullYear(), now.getMonth() + 1)
-      setMonthlyData(monthly || {
-        income: 725000,
-        expenses: 550000,
-        balance: 175000,
-      })
+      if (!monthly) throw new Error('Monthly finance data not found')
+      setMonthlyData(monthly)
     } catch (err) {
       console.error('Error loading finance data:', err)
       setError(err.message)
-      // Fallback data
-      setTransactions([
-        { id: 1, type: 'in', description: 'Iuran Bulanan Anggota', amount: 450000, date: '15 Jan 2025' },
-        { id: 2, type: 'in', description: 'Donasi Bakti Sosial', amount: 200000, date: '10 Jan 2025' },
-        { id: 3, type: 'out', description: 'Pembelian Perlengkapan Olahraga', amount: 150000, date: '08 Jan 2025' },
-        { id: 4, type: 'out', description: 'Hadiah Juara Turnamen', amount: 300000, date: '05 Jan 2025' },
-      ])
+      setTransactions([])
     } finally {
       setLoading(false)
     }
@@ -62,9 +50,9 @@ export default function FinanceScreen() {
     )
   }
 
-  const balanceDisplay = financeSummary?.balance || 2475000
-  const incomeDisplay = monthlyData?.income || financeSummary?.monthIncome || 725000
-  const expenseDisplay = monthlyData?.expenses || financeSummary?.monthExpenses || 550000
+  const balanceDisplay = financeSummary?.balance || 0
+  const incomeDisplay = monthlyData?.income || financeSummary?.monthIncome || 0
+  const expenseDisplay = monthlyData?.expenses || financeSummary?.monthExpenses || 0
 
   return (
     <div className="bg-background min-h-screen flex flex-col pb-20">
