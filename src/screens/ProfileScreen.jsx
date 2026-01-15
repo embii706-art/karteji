@@ -191,34 +191,11 @@ export default function ProfileScreen() {
             <span className="text-sm font-medium text-text-dark">Preferensi Kegiatan</span>
           </button>
           <button 
-            onClick={logout}
+            onClick={handleLogout}
             className="w-full flex items-center gap-3 bg-white border border-border-light rounded-lg p-4 hover:bg-red-50 transition"
           >
             <LogOut className="w-5 h-5 text-danger" />
             <span className="text-sm font-medium text-danger">Logout</span>
-          </button>
-        </div>
-      </div>
-    </div>
-  )
-}
-            <span className="text-xs font-medium">Beranda</span>
-          </button>
-          <button className="flex flex-col items-center justify-center flex-1 text-text-light hover:text-primary transition">
-            <Calendar className="w-5 h-5 mb-1" />
-            <span className="text-xs font-medium">Kegiatan</span>
-          </button>
-          <button className="flex flex-col items-center justify-center flex-1 text-text-light hover:text-primary transition">
-            <MessageSquare className="w-5 h-5 mb-1" />
-            <span className="text-xs font-medium">Diskusi</span>
-          </button>
-          <button className="flex flex-col items-center justify-center flex-1 text-text-light hover:text-primary transition">
-            <Wallet className="w-5 h-5 mb-1" />
-            <span className="text-xs font-medium">Keuangan</span>
-          </button>
-          <button className="flex flex-col items-center justify-center flex-1 text-primary">
-            <User className="w-5 h-5 mb-1" />
-            <span className="text-xs font-medium">Profil</span>
           </button>
         </div>
       </div>

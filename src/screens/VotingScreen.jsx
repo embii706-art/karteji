@@ -201,61 +201,6 @@ export default function VotingScreen() {
             )}
           </>
         )}
-              className="text-xs font-bold text-success hover:underline"
-            >
-              Kembali ke Kandidat
-            </button>
-          </div>
-        )}
-
-        {/* Voting Result Preview */}
-        <div className="mt-8 bg-white border border-border-light rounded-lg p-4">
-          <div className="flex items-center gap-2 mb-4">
-            <TrendingUp className="w-4 h-4 text-primary" />
-            <h3 className="font-bold text-sm text-text-dark">Hasil Saat Ini</h3>
-          </div>
-          <p className="text-xs text-text-light mb-3">Total suara: {voting.totalVoters}</p>
-          <div className="space-y-3">
-            {voting.candidates?.map((candidate) => (
-              <div key={candidate.id}>
-                <div className="flex justify-between mb-1">
-                  <span className="text-xs font-medium text-text-dark">{candidate.name}</span>
-                  <span className="text-xs font-bold text-primary">{voting.totalVoters > 0 ? ((candidate.votes / voting.totalVoters) * 100).toFixed(0) : 0}%</span>
-                </div>
-                <div className="w-full bg-border-light rounded-full h-2">
-                  <div
-                    className="bg-primary h-2 rounded-full transition-all"
-                    style={{ width: `${voting.totalVoters > 0 ? (candidate.votes / voting.totalVoters) * 100 : 0}%` }}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-            <Home className="w-5 h-5 mb-1" />
-            <span className="text-xs font-medium">Beranda</span>
-          </button>
-          <button className="flex flex-col items-center justify-center flex-1 text-text-light hover:text-primary transition">
-            <Calendar className="w-5 h-5 mb-1" />
-            <span className="text-xs font-medium">Kegiatan</span>
-          </button>
-          <button className="flex flex-col items-center justify-center flex-1 text-primary">
-            <MessageSquare className="w-5 h-5 mb-1" />
-            <span className="text-xs font-medium">Diskusi</span>
-          </button>
-          <button className="flex flex-col items-center justify-center flex-1 text-text-light hover:text-primary transition">
-            <Wallet className="w-5 h-5 mb-1" />
-            <span className="text-xs font-medium">Keuangan</span>
-          </button>
-          <button className="flex flex-col items-center justify-center flex-1 text-text-light hover:text-primary transition">
-            <User className="w-5 h-5 mb-1" />
-            <span className="text-xs font-medium">Profil</span>
-          </button>
-        </div>
       </div>
     </div>
   )
