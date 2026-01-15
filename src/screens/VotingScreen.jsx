@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { Home, Calendar, MessageSquare, Wallet, User, Clock, TrendingUp, AlertCircle } from 'lucide-react'
+import { Clock, TrendingUp, AlertCircle } from 'lucide-react'
+import { useAuth } from '../contexts/AuthContext'
 import { getActiveVoting, submitVote, getVotingResults } from '../services/firestoreService'
 import { getProfilePhotoUrl } from '../lib/cloudinary'
 
 export default function VotingScreen() {
+  const { user } = useAuth()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [voting, setVoting] = useState(null)
@@ -27,8 +29,7 @@ export default function VotingScreen() {
       setVoting(activeVoting)
 
       // Check if user already voted
-      const userId = localStorage.getItem('karteji_userId') || 'user-001'
-      const hasVoted = activeVoting.voters?.includes(userId)
+      const hasVoted = activeVoting.voters?.includes(user.id)
       setVoted(hasVoted)
     } catch (err) {
       console.error('Error loading voting data:', err)
@@ -40,11 +41,10 @@ export default function VotingScreen() {
   }
 
   const handleVote = async () => {
-    if (selectedOption === null) return
+    if (selectedOption === null || !user) return
 
     try {
-      const userId = localStorage.getItem('karteji_userId') || 'user-001'
-      await submitVote(voting.id, selectedOption, userId)
+      await submitVote(voting.id, selectedOption, user.id)
       setVoted(true)
       loadVotingData()
     } catch (err) {
@@ -216,16 +216,16 @@ export default function VotingScreen() {
           </div>
           <p className="text-xs text-text-light mb-3">Total suara: {voting.totalVoters}</p>
           <div className="space-y-3">
-            {voting.candidates.map((candidate) => (
+            {voting.candidates?.map((candidate) => (
               <div key={candidate.id}>
                 <div className="flex justify-between mb-1">
                   <span className="text-xs font-medium text-text-dark">{candidate.name}</span>
-                  <span className="text-xs font-bold text-primary">{((candidate.votes / voting.totalVoters) * 100).toFixed(0)}%</span>
+                  <span className="text-xs font-bold text-primary">{voting.totalVoters > 0 ? ((candidate.votes / voting.totalVoters) * 100).toFixed(0) : 0}%</span>
                 </div>
                 <div className="w-full bg-border-light rounded-full h-2">
                   <div
                     className="bg-primary h-2 rounded-full transition-all"
-                    style={{ width: `${(candidate.votes / voting.totalVoters) * 100}%` }}
+                    style={{ width: `${voting.totalVoters > 0 ? (candidate.votes / voting.totalVoters) * 100 : 0}%` }}
                   />
                 </div>
               </div>
@@ -233,11 +233,9 @@ export default function VotingScreen() {
           </div>
         </div>
       </div>
-
-      {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-border-light">
-        <div className="flex justify-around items-center h-16 max-w-xs mx-auto">
-          <button className="flex flex-col items-center justify-center flex-1 text-text-light hover:text-primary transition">
+    </div>
+  )
+}
             <Home className="w-5 h-5 mb-1" />
             <span className="text-xs font-medium">Beranda</span>
           </button>

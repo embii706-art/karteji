@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Home, Calendar, MessageSquare, Wallet, User, MapPin, Clock, Users, CheckCircle2, AlertCircle } from 'lucide-react'
+import { MapPin, Clock, Users, CheckCircle2, AlertCircle, Calendar } from 'lucide-react'
+import { useAuth } from '../contexts/AuthContext'
 import { getEvents, registerEventAttendance } from '../services/firestoreService'
 
 export default function EventsScreen() {
+  const { user } = useAuth()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [events, setEvents] = useState([])
@@ -28,10 +30,10 @@ export default function EventsScreen() {
   }
 
   const handleRegister = async (eventId) => {
+    if (!user) return
     try {
       setRegistering({ ...registering, [eventId]: true })
-      const userId = localStorage.getItem('karteji_userId') || 'user-001'
-      await registerEventAttendance(eventId, userId)
+      await registerEventAttendance(eventId, user.id)
       alert('Kehadiran berhasil didaftarkan!')
       loadEvents()
     } catch (err) {
@@ -154,32 +156,6 @@ export default function EventsScreen() {
             <p className="text-sm text-text-light">Tidak ada kegiatan tersedia</p>
           </div>
         )}
-      </div>
-
-      {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-border-light">
-        <div className="flex justify-around items-center h-16 max-w-xs mx-auto">
-          <button className="flex flex-col items-center justify-center flex-1 text-text-light hover:text-primary transition">
-            <Home className="w-5 h-5 mb-1" />
-            <span className="text-xs font-medium">Beranda</span>
-          </button>
-          <button className="flex flex-col items-center justify-center flex-1 text-primary">
-            <Calendar className="w-5 h-5 mb-1" />
-            <span className="text-xs font-medium">Kegiatan</span>
-          </button>
-          <button className="flex flex-col items-center justify-center flex-1 text-text-light hover:text-primary transition">
-            <MessageSquare className="w-5 h-5 mb-1" />
-            <span className="text-xs font-medium">Diskusi</span>
-          </button>
-          <button className="flex flex-col items-center justify-center flex-1 text-text-light hover:text-primary transition">
-            <Wallet className="w-5 h-5 mb-1" />
-            <span className="text-xs font-medium">Keuangan</span>
-          </button>
-          <button className="flex flex-col items-center justify-center flex-1 text-text-light hover:text-primary transition">
-            <User className="w-5 h-5 mb-1" />
-            <span className="text-xs font-medium">Profil</span>
-          </button>
-        </div>
       </div>
     </div>
   )

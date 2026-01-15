@@ -1,42 +1,36 @@
 import React, { useState, useEffect } from 'react'
-import { Home, Calendar, MessageSquare, Wallet, User, Award, Heart, LogOut, Settings, AlertCircle } from 'lucide-react'
-import { getUserProfile, getUserActivityPoints, getUserAttendance } from '../services/firestoreService'
+import { Award, Heart, LogOut, Settings, AlertCircle } from 'lucide-react'
+import { useAuth } from '../contexts/AuthContext'
+import { getUserActivityPoints, getUserAttendance } from '../services/firestoreService'
 import { getProfilePhotoUrl } from '../lib/cloudinary'
 
 export default function ProfileScreen() {
+  const { user, logout } = useAuth()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  const [userData, setUserData] = useState(null)
   const [activityPoints, setActivityPoints] = useState(0)
   const [attendanceRecord, setAttendanceRecord] = useState([])
 
   useEffect(() => {
+    if (!user) return
     loadProfileData()
-  }, [])
+  }, [user])
 
   const loadProfileData = async () => {
     try {
       setLoading(true)
       setError(null)
 
-      const userId = localStorage.getItem('karteji_userId') || 'user-001'
-
-      // Load user profile from Firebase
-      const profile = await getUserProfile(userId)
-      if (!profile) throw new Error('Profile not found')
-      setUserData(profile)
-
       // Load activity points from Firebase
-      const points = await getUserActivityPoints(userId)
+      const points = await getUserActivityPoints(user.id)
       setActivityPoints(points || 0)
 
       // Load attendance record from Firebase
-      const attendance = await getUserAttendance(userId)
+      const attendance = await getUserAttendance(user.id)
       setAttendanceRecord(attendance || [])
     } catch (err) {
       console.error('Error loading profile data:', err)
       setError(err.message)
-      setUserData(null)
       setActivityPoints(0)
       setAttendanceRecord([])
     } finally {
@@ -53,8 +47,8 @@ export default function ProfileScreen() {
     )
   }
 
-  const profilePhotoUrl = userData?.photoUrl 
-    ? getProfilePhotoUrl(userData.photoUrl)
+  const profilePhotoUrl = user?.photoUrl 
+    ? getProfilePhotoUrl(user.photoUrl)
     : null
 
   return (
@@ -90,7 +84,7 @@ export default function ProfileScreen() {
             {profilePhotoUrl ? (
               <img
                 src={profilePhotoUrl}
-                alt={userData?.name}
+                alt={user?.name}
                 className="w-20 h-20 rounded-full object-cover shadow-md"
               />
             ) : (
@@ -101,14 +95,14 @@ export default function ProfileScreen() {
           </div>
 
           {/* Name and Role */}
-          <h2 className="text-xl font-bold text-text-dark mb-1">{userData?.name || 'Nama Pengguna'}</h2>
-          <p className="text-sm text-text-light mb-2">{userData?.role || 'Anggota'}</p>
-          <p className="text-xs text-text-light mb-4">Bergabung sejak {userData?.joinDate || 'Januari 2023'}</p>
+          <h2 className="text-xl font-bold text-text-dark mb-1">{user?.name || 'Nama Pengguna'}</h2>
+          <p className="text-sm text-text-light mb-2">{user?.role || 'Anggota'}</p>
+          <p className="text-xs text-text-light mb-4">Bergabung sejak {user?.joinDate || 'Januari 2023'}</p>
 
           {/* Contact Info */}
           <div className="bg-blue-50 rounded p-3 text-xs text-text-dark">
-            <p className="mb-1"><strong>📱 {userData?.phone || '08123456789'}</strong></p>
-            <p><strong>📧 {userData?.email || 'andi@example.com'}</strong></p>
+            <p className="mb-1"><strong>📱 {user?.phone || '08123456789'}</strong></p>
+            <p><strong>📧 {user?.email || 'user@example.com'}</strong></p>
           </div>
         </div>
 
@@ -187,18 +181,18 @@ export default function ProfileScreen() {
             <Heart className="w-5 h-5 text-danger" />
             <span className="text-sm font-medium text-text-dark">Preferensi Kegiatan</span>
           </button>
-          <button className="w-full flex items-center gap-3 bg-white border border-border-light rounded-lg p-4 hover:bg-red-50 transition">
+          <button 
+            onClick={logout}
+            className="w-full flex items-center gap-3 bg-white border border-border-light rounded-lg p-4 hover:bg-red-50 transition"
+          >
             <LogOut className="w-5 h-5 text-danger" />
             <span className="text-sm font-medium text-danger">Logout</span>
           </button>
         </div>
       </div>
-
-      {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-border-light">
-        <div className="flex justify-around items-center h-16 max-w-xs mx-auto">
-          <button className="flex flex-col items-center justify-center flex-1 text-text-light hover:text-primary transition">
-            <Home className="w-5 h-5 mb-1" />
+    </div>
+  )
+}
             <span className="text-xs font-medium">Beranda</span>
           </button>
           <button className="flex flex-col items-center justify-center flex-1 text-text-light hover:text-primary transition">

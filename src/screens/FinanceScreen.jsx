@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Home, Calendar, MessageSquare, Wallet, User, TrendingDown, TrendingUp, ArrowDownRight, ArrowUpRight, AlertCircle } from 'lucide-react'
+import { TrendingDown, TrendingUp, ArrowDownRight, ArrowUpRight, AlertCircle } from 'lucide-react'
 import { getFinanceSummary, getTransactions, getMonthlyFinance } from '../services/firestoreService'
 
 export default function FinanceScreen() {
@@ -158,32 +158,6 @@ export default function FinanceScreen() {
         <button className="w-full mt-4 border border-primary text-primary font-bold py-2 rounded-lg hover:bg-primary hover:text-white transition">
           Lihat Semua Transaksi
         </button>
-      </div>
-
-      {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-border-light">
-        <div className="flex justify-around items-center h-16 max-w-xs mx-auto">
-          <button className="flex flex-col items-center justify-center flex-1 text-text-light hover:text-primary transition">
-            <Home className="w-5 h-5 mb-1" />
-            <span className="text-xs font-medium">Beranda</span>
-          </button>
-          <button className="flex flex-col items-center justify-center flex-1 text-text-light hover:text-primary transition">
-            <Calendar className="w-5 h-5 mb-1" />
-            <span className="text-xs font-medium">Kegiatan</span>
-          </button>
-          <button className="flex flex-col items-center justify-center flex-1 text-text-light hover:text-primary transition">
-            <MessageSquare className="w-5 h-5 mb-1" />
-            <span className="text-xs font-medium">Diskusi</span>
-          </button>
-          <button className="flex flex-col items-center justify-center flex-1 text-primary">
-            <Wallet className="w-5 h-5 mb-1" />
-            <span className="text-xs font-medium">Keuangan</span>
-          </button>
-          <button className="flex flex-col items-center justify-center flex-1 text-text-light hover:text-primary transition">
-            <User className="w-5 h-5 mb-1" />
-            <span className="text-xs font-medium">Profil</span>
-          </button>
-        </div>
       </div>
     </div>
   )

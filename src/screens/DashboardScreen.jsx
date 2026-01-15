@@ -1,28 +1,23 @@
 import React, { useState, useEffect } from 'react'
-import { Home, Calendar, MessageSquare, Wallet, User, AlertCircle } from 'lucide-react'
-import { getEvents, getAnnouncements, getUserProfile, getUserAttendance } from '../services/firestoreService'
+import { AlertCircle } from 'lucide-react'
+import { useAuth } from '../contexts/AuthContext'
+import { getEvents, getAnnouncements, getUserAttendance } from '../services/firestoreService'
 
 export default function DashboardScreen() {
+  const { user } = useAuth()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  const [userData, setUserData] = useState(null)
   const [upcomingEvent, setUpcomingEvent] = useState(null)
   const [announcements, setAnnouncements] = useState([])
   const [attendance, setAttendance] = useState({})
 
   useEffect(() => {
+    if (!user) return
+    
     const loadDashboardData = async () => {
       try {
         setLoading(true)
         setError(null)
-
-        // Get user ID from localStorage or auth
-        const userId = localStorage.getItem('karteji_userId') || 'user-001'
-
-        // Load user profile from Firebase
-        const profile = await getUserProfile(userId)
-        if (!profile) throw new Error('Profile not found')
-        setUserData(profile)
 
         // Load upcoming events from Firebase
         const events = await getEvents(1)
@@ -34,7 +29,7 @@ export default function DashboardScreen() {
 
         // Load attendance from Firebase
         const currentMonth = new Date().getMonth() + 1
-        const att = await getUserAttendance(userId, currentMonth)
+        const att = await getUserAttendance(user.id, currentMonth)
         setAttendance({
           total: att.length,
           month: currentMonth,
@@ -48,7 +43,7 @@ export default function DashboardScreen() {
     }
 
     loadDashboardData()
-  }, [])
+  }, [user])
 
   if (loading) {
     return (
@@ -59,8 +54,8 @@ export default function DashboardScreen() {
     )
   }
 
-  const greetingName = userData?.name?.split(' ')[0] || 'User'
-  const activityPoints = userData?.activityPoints || 0
+  const greetingName = user?.name?.split(' ')[0] || 'User'
+  const activityPoints = user?.activityPoints || 0
   const attendanceCount = attendance.total || 0
 
   return (
@@ -158,31 +153,6 @@ export default function DashboardScreen() {
         )}
       </div>
 
-      {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-border-light">
-        <div className="flex justify-around items-center h-16 max-w-xs mx-auto">
-          <button className="flex flex-col items-center justify-center flex-1 text-primary">
-            <Home className="w-5 h-5 mb-1" />
-            <span className="text-xs font-medium">Beranda</span>
-          </button>
-          <button className="flex flex-col items-center justify-center flex-1 text-text-light hover:text-primary transition">
-            <Calendar className="w-5 h-5 mb-1" />
-            <span className="text-xs font-medium">Kegiatan</span>
-          </button>
-          <button className="flex flex-col items-center justify-center flex-1 text-text-light hover:text-primary transition">
-            <MessageSquare className="w-5 h-5 mb-1" />
-            <span className="text-xs font-medium">Diskusi</span>
-          </button>
-          <button className="flex flex-col items-center justify-center flex-1 text-text-light hover:text-primary transition">
-            <Wallet className="w-5 h-5 mb-1" />
-            <span className="text-xs font-medium">Keuangan</span>
-          </button>
-          <button className="flex flex-col items-center justify-center flex-1 text-text-light hover:text-primary transition">
-            <User className="w-5 h-5 mb-1" />
-            <span className="text-xs font-medium">Profil</span>
-          </button>
-        </div>
-      </div>
     </div>
   )
 }
