@@ -1,15 +1,24 @@
 import React, { useState, useEffect } from 'react'
 import { Award, Heart, LogOut, Settings, AlertCircle } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
+import { useNavigate } from 'react-router-dom'
 import { getUserActivityPoints, getUserAttendance } from '../services/firestoreService'
 import { getProfilePhotoUrl } from '../lib/cloudinary'
 
 export default function ProfileScreen() {
   const { user, logout } = useAuth()
+  const navigate = useNavigate()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [activityPoints, setActivityPoints] = useState(0)
   const [attendanceRecord, setAttendanceRecord] = useState([])
+
+  const handleLogout = () => {
+    if (confirm('Apakah Anda yakin ingin keluar?')) {
+      logout()
+      navigate('/login')
+    }
+  }
 
   useEffect(() => {
     if (!user) return
@@ -173,7 +182,7 @@ export default function ProfileScreen() {
         {/* Menu Items */}
         <p className="text-xs font-bold text-text-light uppercase tracking-wider mb-3">Pengaturan</p>
         <div className="space-y-2 mb-6">
-          <button className="w-full flex items-center gap-3 bg-white border border-border-light rounded-lg p-4 hover:bg-blue-50 transition">
+          <button clahandleLsName="w-full flex items-center gap-3 bg-white border border-border-light rounded-lg p-4 hover:bg-blue-50 transition">
             <Settings className="w-5 h-5 text-primary" />
             <span className="text-sm font-medium text-text-dark">Pengaturan Akun</span>
           </button>

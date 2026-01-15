@@ -2,6 +2,7 @@ import React from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider, useAuth } from './contexts/AuthContext'
 import LoginScreen from './screens/LoginScreen'
+import RegisterScreen from './screens/RegisterScreen'
 import DashboardScreen from './screens/DashboardScreen'
 import EventsScreen from './screens/EventsScreen'
 import VotingScreen from './screens/VotingScreen'
@@ -29,6 +30,7 @@ function AppContent() {
   return (
     <>
       <Routes>
+        <Route path="/register" element={<RegisterScreen />} />
         <Route path="/login" element={<LoginScreen />} />
         <Route
           path="/dashboard"

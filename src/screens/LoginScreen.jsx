@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import { AlertCircle } from 'lucide-react'
 
 export default function LoginScreen() {
-  const [userId, setUserId] = useState('')
+  const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const { login } = useAuth()
@@ -13,31 +13,40 @@ export default function LoginScreen() {
   const handleLogin = async (e) => {
     e.preventDefault()
     
-    if (!userId.trim()) {
-      setError('Masukkan User ID Anda')
+    if (!email.trim()) {
+      setError('Masukkan email Anda')
+      return
+    }
+
+    if (!email.includes('@')) {
+      setError('Format email tidak valid')
       return
     }
 
     try {
       setLoading(true)
       setError(null)
-      await login(userId.trim())
+      
+      // Find user by email
+      const { collection, query, where, getDocs } = await import('firebase/firestore')
+      const { db } = await import('../lib/firebase')
+      
+      const usersRef = collection(db, 'users')
+      const emailQuery = query(usersRef, where('email', '==', email.trim().toLowerCase()))
+      const querySnapshot = await getDocs(emailQuery)
+      
+      if (querySnapshot.empty) {
+        setError('Email tidak terdaftar. Silakan daftar terlebih dahulu.')
+        return
+      }
+      
+      const userDoc = querySnapshot.docs[0]
+      const userId = userDoc.id
+      
+      await login(userId)
       navigate('/dashboard')
     } catch (err) {
-      setError(err.message || 'User ID tidak ditemukan. Pastikan Anda sudah terdaftar di sistem.')
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const handleQuickLogin = async (demoId) => {
-    try {
-      setLoading(true)
-      setError(null)
-      await login(demoId)
-      navigate('/dashboard')
-    } catch (err) {
-      setError('Demo user tidak tersedia. Silakan setup data di Firebase terlebih dahulu.')
+      setError(err.message || 'Login gagal. Silakan coba lagi.')
     } finally {
       setLoading(false)
     }
@@ -83,12 +92,12 @@ export default function LoginScreen() {
       <div className="w-full max-w-xs animate-slideUp">
         <div className="bg-white bg-opacity-10 backdrop-blur-md rounded-2xl p-6 mb-4">
           <form onSubmit={handleLogin}>
-            <label className="block text-white text-sm font-semibold mb-2">User ID</label>
+            <label className="block text-white text-sm font-semibold mb-2">Email</label>
             <input
-              type="text"
-              value={userId}
-              onChange={(e) => setUserId(e.target.value)}
-              placeholder="Masukkan User ID (contoh: user-001)"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="nama@email.com"
               className="w-full px-4 py-3 rounded-xl border-2 border-white border-opacity-30 bg-white bg-opacity-20 text-white placeholder-blue-200 focus:outline-none focus:border-accent transition"
               disabled={loading}
             />
@@ -110,22 +119,23 @@ export default function LoginScreen() {
           </form>
         </div>
 
-        {/* Quick Login */}
+        {/* Register Link */}
         <div className="text-center mb-4">
-          <p className="text-blue-200 text-xs mb-2">Quick Login (Demo)</p>
-          <button
-            onClick={() => handleQuickLogin('user-001')}
-            disabled={loading}
-            className="text-white text-sm underline hover:text-accent transition disabled:opacity-50"
+          <p className="text-blue-200 text-sm mb-3">
+            Belum punya akun?
+          </p>
+          <Link
+            to="/register"
+            className="block w-full bg-white bg-opacity-20 text-white font-bold py-4 rounded-xl border-2 border-white border-opacity-40 hover:bg-opacity-30 hover:scale-105 transition-all duration-300 backdrop-blur-sm"
           >
-            Login sebagai user-001
-          </button>
+            Daftar Anggota Baru
+          </Link>
         </div>
 
         {/* Info */}
         <div className="text-center">
           <p className="text-blue-100 text-xs">
-            Belum punya akun? Hubungi admin RT untuk pendaftaran
+            Hubungi admin RT jika ada kendala akses
           </p>
         </div>
       </div>
