@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 export default function SplashScreen() {
+  const [logoError, setLogoError] = useState(false)
+
   return (
     <div className="bg-gradient-to-br from-primary via-blue-700 to-primary-light min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden">
       {/* Decorative circles */}
@@ -9,8 +11,17 @@ export default function SplashScreen() {
       
       {/* Logo Circle */}
       <div className="mb-12 relative animate-fadeIn">
-        <div className="w-28 h-28 bg-white rounded-full flex items-center justify-center shadow-2xl ring-4 ring-white ring-opacity-30">
-          <span className="text-5xl font-extrabold text-primary">K</span>
+        <div className="w-32 h-32 bg-white rounded-full flex items-center justify-center shadow-2xl ring-4 ring-white ring-opacity-30 overflow-hidden p-2">
+          {!logoError ? (
+            <img 
+              src="/logo.jpg" 
+              alt="KARTEJI Logo" 
+              className="w-full h-full object-contain"
+              onError={() => setLogoError(true)}
+            />
+          ) : (
+            <span className="text-5xl font-extrabold text-primary">K</span>
+          )}
         </div>
         <div className="absolute -bottom-2 -right-2 w-12 h-12 bg-accent rounded-full flex items-center justify-center text-base font-bold text-primary shadow-lg ring-2 ring-white">
           5
