@@ -67,33 +67,34 @@ export default function DashboardScreen() {
   const attendanceCount = attendance.total || 8
 
   return (
-    <div className="bg-background min-h-screen flex flex-col pb-20">
+    <div className="bg-gradient-to-b from-blue-50 to-background min-h-screen flex flex-col pb-20">
       {/* Header */}
-      <div className="bg-gradient-to-b from-primary to-primary-light text-white px-4 pt-6 pb-8">
-        <h1 className="text-2xl font-bold mb-1">Halo, {greetingName}! 👋</h1>
-        <p className="text-blue-100 text-sm">Senin, 15 Januari 2025</p>
+      <div className="bg-gradient-to-br from-primary via-blue-700 to-primary-light text-white px-4 pt-6 pb-10 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-accent opacity-10 rounded-full blur-3xl"></div>
+        <h1 className="text-3xl font-extrabold mb-1 relative z-10">Halo, {greetingName}! 👋</h1>
+        <p className="text-blue-100 text-sm font-medium relative z-10">Senin, 15 Januari 2025</p>
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-y-auto px-4 py-4">
+      <div className="flex-1 overflow-y-auto px-4 -mt-4">
         {error && (
-          <div className="bg-yellow-50 border border-warning border-opacity-30 rounded-lg p-3 mb-4 flex gap-2">
+          <div className="bg-yellow-50 border border-warning border-opacity-30 rounded-xl p-3 mb-4 flex gap-2 shadow-sm">
             <AlertCircle className="w-5 h-5 text-warning flex-shrink-0" />
             <p className="text-sm text-text-dark">{error}</p>
           </div>
         )}
 
         {/* Member Status Summary */}
-        <div className="grid grid-cols-2 gap-3 mb-6">
-          <div className="bg-blue-50 border border-primary border-opacity-20 rounded-lg p-4">
-            <p className="text-text-light text-xs font-medium mb-1">Kehadiran Bulan Ini</p>
-            <p className="text-2xl font-bold text-primary">{attendanceCount}/10</p>
-            <p className="text-xs text-text-light mt-1">Aktif mengikuti</p>
+        <div className="grid grid-cols-2 gap-4 mb-6">
+          <div className="bg-white border border-blue-100 rounded-2xl p-4 shadow-lg hover:shadow-xl transition-shadow">
+            <p className="text-text-light text-xs font-semibold mb-1 uppercase tracking-wide">Kehadiran Bulan Ini</p>
+            <p className="text-3xl font-extrabold text-primary">{attendanceCount}/10</p>
+            <p className="text-xs text-success mt-1 font-medium">✓ Aktif mengikuti</p>
           </div>
-          <div className="bg-yellow-50 border border-accent border-opacity-20 rounded-lg p-4">
-            <p className="text-text-light text-xs font-medium mb-1">Poin Aktivitas</p>
-            <p className="text-2xl font-bold text-accent-dark">{activityPoints}</p>
-            <p className="text-xs text-text-light mt-1">Terus berkontribusi</p>
+          <div className="bg-gradient-to-br from-accent to-yellow-400 rounded-2xl p-4 shadow-lg hover:shadow-xl transition-shadow">
+            <p className="text-primary text-xs font-semibold mb-1 uppercase tracking-wide">Poin Aktivitas</p>
+            <p className="text-3xl font-extrabold text-primary">{activityPoints}</p>
+            <p className="text-xs text-primary mt-1 font-medium">⭐ Terus berkontribusi</p>
           </div>
         </div>
 

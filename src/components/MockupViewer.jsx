@@ -33,10 +33,10 @@ export default function MockupViewer() {
   const visibleScreens = screens.slice(startIndex, startIndex + screensPerView)
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary via-primary-light to-primary bg-opacity-10">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-yellow-50 to-blue-100 animate-gradient">
       {selectedScreen ? (
         // Full Screen View
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4 backdrop-blur-sm animate-fadeIn">
           <div className="relative max-w-md w-full">
             <button
               onClick={() => setSelectedScreen(null)}
@@ -54,9 +54,9 @@ export default function MockupViewer() {
       {/* Main View */}
       <div className="min-h-screen py-8 px-4">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-primary mb-3">KARTEJI</h1>
-          <p className="text-lg text-text-light mb-2">Karang Taruna Digital – Mobile App UI Mockup</p>
+        <div className="text-center mb-12 animate-fadeIn">
+          <h1 className="text-5xl md:text-6xl font-extrabold bg-gradient-to-r from-primary via-blue-700 to-primary bg-clip-text text-transparent mb-4 drop-shadow-sm">KARTEJI</h1>
+          <p className="text-xl font-semibold text-primary mb-2">Karang Taruna Digital – Mobile App UI Mockup</p>
           <p className="text-sm text-text-light max-w-2xl mx-auto">
             A modern, community-focused mobile application for neighborhood youth organizations in Indonesia. 
             Built with React, Vite, Tailwind CSS, with real Firebase and Cloudinary integration patterns.
@@ -64,9 +64,9 @@ export default function MockupViewer() {
         </div>
 
         {/* Project Information */}
-        <div className="max-w-6xl mx-auto mb-12 grid md:grid-cols-2 gap-6">
-          <div className="bg-white rounded-lg p-6 shadow-sm border border-border-light">
-            <h3 className="font-bold text-lg text-primary mb-3">📱 Design Highlights</h3>
+        <div className="max-w-6xl mx-auto mb-12 grid md:grid-cols-2 gap-6 animate-slideUp">
+          <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-blue-100 hover:scale-105">
+            <h3 className="font-bold text-xl text-primary mb-4 flex items-center gap-2">📱 Design Highlights</h3>
             <ul className="text-sm text-text-dark space-y-2">
               <li>✓ Modern, clean, and friendly interface</li>
               <li>✓ Deep blue primary + yellow accent colors</li>
@@ -76,8 +76,8 @@ export default function MockupViewer() {
               <li>✓ Optimized for low-end Android devices</li>
             </ul>
           </div>
-          <div className="bg-white rounded-lg p-6 shadow-sm border border-border-light">
-            <h3 className="font-bold text-lg text-primary mb-3">🔥 Real Integration Patterns</h3>
+          <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-blue-100 hover:scale-105">
+            <h3 className="font-bold text-xl text-primary mb-4 flex items-center gap-2">🔥 Real Integration Patterns</h3>
             <ul className="text-sm text-text-dark space-y-2">
               <li>✓ Firebase for user & activity data</li>
               <li>✓ Cloudinary for profile & event photos</li>
@@ -131,20 +131,21 @@ export default function MockupViewer() {
                 <div
                   key={screen.id}
                   onClick={() => setSelectedScreen(screen)}
-                  className="cursor-pointer group"
+                  className="cursor-pointer group animate-slideUp"
+                  style={{ animationDelay: `${screen.id * 0.1}s` }}
                 >
-                  <div className="relative rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-shadow bg-white border-8 border-white" style={{ aspectRatio: '9/16' }}>
+                  <div className="relative rounded-3xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-300 bg-white border-8 border-white hover:scale-105 hover:border-accent" style={{ aspectRatio: '9/16' }}>
                     <div className="absolute inset-0 overflow-hidden bg-white">
                       <ScreenComponent />
                     </div>
                     {/* Click Overlay */}
-                    <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity flex items-center justify-center">
-                      <span className="text-white font-bold opacity-0 group-hover:opacity-100 transition-opacity">View Full</span>
+                    <div className="absolute inset-0 bg-gradient-to-t from-primary to-transparent opacity-0 group-hover:opacity-20 transition-all duration-300 flex items-center justify-center">
+                      <span className="text-white font-bold text-lg opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:scale-110 bg-primary px-4 py-2 rounded-full">🔍 View Full</span>
                     </div>
                   </div>
-                  <div className="mt-3 text-center">
-                    <h3 className="font-bold text-primary text-sm">{screen.name}</h3>
-                    <p className="text-xs text-text-light">Click to view fullscreen</p>
+                  <div className="mt-4 text-center">
+                    <h3 className="font-bold text-primary text-base group-hover:text-accent transition-colors">{screen.name}</h3>
+                    <p className="text-xs text-text-light opacity-0 group-hover:opacity-100 transition-opacity">Click to view fullscreen</p>
                   </div>
                 </div>
               )
