@@ -155,7 +155,7 @@ export default function RegisterScreen() {
               </div>
             </div>
             <h1 className="text-3xl font-extrabold text-white mb-2">Daftar Anggota Baru</h1>
-            <p className="text-blue-200">Bergabung dengan Karang Taruna RT 05</p>
+            <p className="text-blue-200">Bergabung dengan Karang Taruna RT 01</p>
           </div>
 
           {/* Form */}
@@ -218,7 +218,7 @@ export default function RegisterScreen() {
                   name="address"
                   value={formData.address}
                   onChange={handleChange}
-                  placeholder="Alamat lengkap di RT 05"
+                  placeholder="Alamat lengkap di RT 01"
                   rows="2"
                   className="w-full px-4 py-3 rounded-xl border-2 border-white border-opacity-30 bg-white bg-opacity-20 text-white placeholder-blue-200 focus:outline-none focus:border-accent transition resize-none"
                   disabled={loading}

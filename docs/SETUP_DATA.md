@@ -69,10 +69,10 @@ Document ID: auto-generated
 ```json
 {
   "title": "Bakti Sosial Bersih Lingkungan",
-  "description": "Kegiatan bersih-bersih lingkungan RT 05",
+  "description": "Kegiatan bersih-bersih lingkungan RT 01",
   "date": "15 Januari 2026",
   "time": "08:00 - 11:00",
-  "location": "Jalan Utama RT 05",
+  "location": "Jalan Utama RT 01",
   "category": "Bakti Sosial",
   "status": "Aktif",
   "attendees": 24,

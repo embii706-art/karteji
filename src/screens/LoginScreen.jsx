@@ -81,7 +81,7 @@ export default function LoginScreen() {
 
       {/* App Title */}
       <h1 className="text-5xl font-extrabold text-white text-center mb-2 tracking-tight">KARTEJI</h1>
-      <p className="text-xl text-blue-100 text-center mb-2 font-semibold">Karang Taruna RT 05</p>
+      <p className="text-xl text-blue-100 text-center mb-2 font-semibold">Karang Taruna RT 01</p>
 
       {/* Slogan */}
       <p className="text-center text-blue-200 text-base font-medium mb-8 max-w-xs">

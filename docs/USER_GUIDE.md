@@ -1,6 +1,6 @@
 # 📖 User Guide - KARTEJI
 
-Panduan lengkap penggunaan aplikasi KARTEJI untuk anggota Karang Taruna RT 05.
+Panduan lengkap penggunaan aplikasi KARTEJI untuk anggota Karang Taruna RT 01.
 
 ---
 
@@ -14,7 +14,7 @@ Panduan lengkap penggunaan aplikasi KARTEJI untuk anggota Karang Taruna RT 05.
    - Nama Lengkap (wajib)
    - Email (wajib, gunakan email aktif)
    - Nomor HP (wajib, min 10 digit)
-   - Alamat (wajib, alamat lengkap di RT 05)
+   - Alamat (wajib, alamat lengkap di RT 01)
 4. Klik **"Daftar Sekarang"**
 5. Tunggu konfirmasi berhasil
 6. Anda akan otomatis masuk ke dashboard

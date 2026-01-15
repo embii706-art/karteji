@@ -1,6 +1,6 @@
 # 🚀 KARTEJI – Karang Taruna Digital
 
-**Sistem Manajemen Karang Taruna RT 05 Berbasis Web**  
+**Sistem Manajemen Karang Taruna RT 01 Berbasis Web**  
 Progressive Web App untuk pengelolaan organisasi pemuda RT yang modern, transparan, dan efisien.
 
 [![React](https://img.shields.io/badge/React-18.2.0-blue)](https://reactjs.org/)
@@ -307,4 +307,4 @@ MIT License
 
 **KARTEJI – Pemuda Aktif, RT Produktif!** 🚀
 
-Made with ❤️ by Karang Taruna RT 05
+Made with ❤️ by Karang Taruna RT 01
