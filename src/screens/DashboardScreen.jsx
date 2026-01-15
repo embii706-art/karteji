@@ -71,8 +71,11 @@ export default function DashboardScreen() {
       {/* Header */}
       <div className="bg-gradient-to-br from-primary via-blue-700 to-primary-light text-white px-4 pt-6 pb-10 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-32 h-32 bg-accent opacity-10 rounded-full blur-3xl"></div>
-        <h1 className="text-3xl font-extrabold mb-1 relative z-10">Halo, {greetingName}! 👋</h1>
-        <p className="text-blue-100 text-sm font-medium relative z-10">Senin, 15 Januari 2025</p>
+        <div className="flex items-center gap-3 mb-2 relative z-10">
+          <img src="/logo.jpg" alt="KARTEJI" className="h-10 w-10 rounded-full object-cover ring-2 ring-white ring-opacity-30" />
+          <h1 className="text-3xl font-extrabold">Halo, {greetingName}! 👋</h1>
+        </div>
+        <p className="text-blue-100 text-sm font-medium relative z-10 ml-13">Senin, 15 Januari 2025</p>
       </div>
 
       {/* Content */}

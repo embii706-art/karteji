@@ -55,7 +55,10 @@ export default function MockupViewer() {
       <div className="min-h-screen py-8 px-4">
         {/* Header */}
         <div className="text-center mb-12 animate-fadeIn">
-          <h1 className="text-5xl md:text-6xl font-extrabold bg-gradient-to-r from-primary via-blue-700 to-primary bg-clip-text text-transparent mb-4 drop-shadow-sm">KARTEJI</h1>
+          <div className="flex justify-center items-center mb-4">
+            <img src="/logo.jpg" alt="KARTEJI Logo" className="h-20 md:h-24 w-auto object-contain" />
+          </div>
+          <h1 className="text-3xl md:text-4xl font-extrabold text-primary mb-2">KARTEJI</h1>
           <p className="text-xl font-semibold text-primary mb-2">Karang Taruna Digital – Mobile App UI Mockup</p>
           <p className="text-sm text-text-light max-w-2xl mx-auto">
             A modern, community-focused mobile application for neighborhood youth organizations in Indonesia. 

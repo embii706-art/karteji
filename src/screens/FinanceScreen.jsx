@@ -76,8 +76,11 @@ export default function FinanceScreen() {
 
       {/* Header */}
       <div className="bg-gradient-to-b from-primary to-primary-light text-white px-4 pt-6 pb-8">
-        <h1 className="text-2xl font-bold mb-1">Keuangan</h1>
-        <p className="text-blue-100 text-sm">Transparansi Kas Karang Taruna</p>
+        <div className="flex items-center gap-3 mb-1">
+          <img src="/logo.jpg" alt="KARTEJI" className="h-8 w-8 rounded-full object-cover ring-2 ring-white ring-opacity-30" />
+          <h1 className="text-2xl font-bold">Keuangan</h1>
+        </div>
+        <p className="text-blue-100 text-sm ml-11">Transparansi Kas Karang Taruna</p>
       </div>
 
       {/* Content */}
